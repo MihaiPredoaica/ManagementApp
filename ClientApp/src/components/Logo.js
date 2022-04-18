@@ -1,12 +1,25 @@
 import React from "react";
-import { Box, Image, Link, Text } from "@chakra-ui/react";
+import { HiOutlineClipboardCheck } from "react-icons/hi";
+import { useHistory } from "react-router-dom";
+import { IconButton } from "@chakra-ui/react";
 
 export default function Logo(props) {
+  const history = useHistory();
+
+  function handleClick() {
+    history.push("/");
+  }
+
   return (
-    <Box {...props}>
-      <Link href="/" fontSize="lg" fontWeight="bold">
-        <Image src="Logo.ico" />
-      </Link>
-    </Box>
+    <IconButton
+      size="md"
+      fontSize="larger"
+      variant="ghost"
+      color="current"
+      marginLeft="2"
+      onClick={handleClick}
+      icon={<HiOutlineClipboardCheck />}
+      {...props}
+    />
   );
 }
