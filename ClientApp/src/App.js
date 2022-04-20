@@ -16,9 +16,9 @@ export default class App extends Component {
   render() {
     return (
       <Layout>
-        <AuthorizeRoute exact path="/" component={Home} />
-        <AuthorizeRoute path="/counter" component={Counter} />
-        <AuthorizeRoute path="/fetch-data" component={FetchData} />
+        <Route exact path="/" component={Home} />
+        <Route path="/counter" component={Counter} />
+        <Route path="/fetch-data" component={FetchData} />
         <Route
           path={ApplicationPaths.ApiAuthorizationPrefix}
           component={ApiAuthorizationRoutes}

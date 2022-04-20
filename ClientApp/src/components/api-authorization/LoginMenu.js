@@ -3,6 +3,8 @@ import { NavItem, NavLink } from "reactstrap";
 import { Link } from "react-router-dom";
 import authService from "./AuthorizeService";
 import { ApplicationPaths } from "./ApiAuthorizationConstants";
+import { FiLogOut, FiLogIn, FiPlusCircle } from 'react-icons/fi';
+import { Button, Icon } from "@chakra-ui/react";
 
 export class LoginMenu extends Component {
   constructor(props) {
@@ -58,11 +60,28 @@ export class LoginMenu extends Component {
             Hello {userName}
           </NavLink>
         </NavItem>
-        <NavItem>
-          <NavLink tag={Link} className="text-dark" to={logoutPath}>
+        <Button
+            display={{ base: "none", md: "inline-flex" }}
+            fontSize={"sm"}
+            fontWeight={600}
+            color={"white"}
+            bg={"pink.400"}
+            href={logoutPath}
+            _hover={{
+              bg: "pink.300",
+            }}
+          >
+            <Icon
+              mr="4"
+              fontSize="16"
+              _groupHover={{
+                color: "white",
+              }}
+              as={FiLogOut}
+            />
             Logout
-          </NavLink>
-        </NavItem>
+
+          </Button>
       </Fragment>
     );
   }
@@ -70,16 +89,50 @@ export class LoginMenu extends Component {
   anonymousView(registerPath, loginPath) {
     return (
       <Fragment>
-        <NavItem>
-          <NavLink tag={Link} className="text-dark" to={registerPath}>
+        <Button
+            display={{ base: "none", md: "inline-flex" }}
+            fontSize={"sm"}
+            fontWeight={600}
+            color={"white"}
+            bg={"gray.400"}
+            href={registerPath}
+            _hover={{
+              bg: "gray.300",
+            }}
+          >
+            <Icon
+              mr="4"
+              fontSize="16"
+              _groupHover={{
+                color: "white",
+              }}
+              as={FiPlusCircle}
+            />
             Register
-          </NavLink>
-        </NavItem>
-        <NavItem>
-          <NavLink tag={Link} className="text-dark" to={loginPath}>
+
+          </Button>
+        <Button
+            display={{ base: "none", md: "inline-flex" }}
+            fontSize={"sm"}
+            fontWeight={600}
+            color={"white"}
+            bg={"blue.400"}
+            href={loginPath}
+            _hover={{
+              bg: "blue.300",
+            }}
+          >
+            <Icon
+              mr="4"
+              fontSize="16"
+              _groupHover={{
+                color: "white",
+              }}
+              as={FiLogIn}
+            />
             Login
-          </NavLink>
-        </NavItem>
+
+          </Button>
       </Fragment>
     );
   }
