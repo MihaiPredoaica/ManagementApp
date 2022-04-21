@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Container } from "reactstrap";
+import { Container } from "@chakra-ui/react";
 import { NavBar } from "./navBar/NavBar";
 
 export class Layout extends Component {
@@ -9,7 +9,7 @@ export class Layout extends Component {
     return (
       <div>
         <NavBar />
-        <Container>{this.props.children}</Container>
+        <Container maxW="20000">{this.props.children}</Container>
       </div>
     );
   }

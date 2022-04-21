@@ -17,7 +17,7 @@ import { ColorModeSwitcher } from "./ColorModeSwitcher";
 import { LoginMenu } from "../api-authorization/LoginMenu";
 import { DesktopNav } from "./DesktopNav";
 import { MobileNav } from "./MobileNav";
-import Logo from "./Logo";
+import { Logo } from "./Logo";
 import { NavToggle } from "./NavToggle";
 
 

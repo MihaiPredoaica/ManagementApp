@@ -1,8 +1,39 @@
-import React, { Component } from "react";
-import { Box, Image, Text, Container, Flex, VStack } from "@chakra-ui/react";
+import React from "react";
+import { Box, Image, Text, Container, Flex, VStack, Button, useColorModeValue, Icon } from "@chakra-ui/react";
+import { FiPlusCircle } from 'react-icons/fi';
 
-export const Home = () => {
+export const ProjectsList = () => {
   return (
+  <>
+    <Flex
+      h="20vh"
+      alignItems="center"
+      >
+        
+      <Button
+        px={8}
+        bg={useColorModeValue('gray.200', 'gray.500')}
+        color={useColorModeValue('black.700', 'white.700')}
+        w="200px"
+        h="60px"
+        rounded={'md'}
+        _hover={{
+          transform: 'translateY(-2px)',
+          boxShadow: 'lg',
+        }}>
+        <Icon
+              mr="4"
+              fontSize="35"
+              _groupHover={{
+                color: "black",
+              }}
+              as={FiPlusCircle}
+        />
+        <Text >
+          Add Project
+        </Text>
+      </Button>
+    </Flex>
     <Container maxW="container.xl" p={0}>
       <Flex h="100vh" py={20}>
         <VStack
@@ -54,5 +85,6 @@ export const Home = () => {
         </VStack>
       </Flex>
     </Container>
+  </>
   );
 };
