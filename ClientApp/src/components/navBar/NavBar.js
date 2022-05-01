@@ -7,11 +7,9 @@ import {
   useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
-import {
-  FiHome,
-  FiTrendingUp,
-  FiCompass,
-} from "react-icons/fi";
+import { FiHome } from "react-icons/fi";
+import { VscTypeHierarchySub } from "react-icons/vsc";
+import { GoTasklist } from "react-icons/go";
 
 import { ColorModeSwitcher } from "./ColorModeSwitcher";
 import { LoginMenu } from "../api-authorization/LoginMenu";
@@ -20,12 +18,11 @@ import { MobileNav } from "./MobileNav";
 import { Logo } from "./Logo";
 import { NavToggle } from "./NavToggle";
 
-
 const LinkItems = [
   {
     label: "Home",
     icon: FiHome,
-    href: "/",
+    href: "/home",
     // children: [
     //   {
     //     label: "Explore Design Work",
@@ -39,24 +36,8 @@ const LinkItems = [
     //   },
     // ],
   },
-  {
-    label: "Counter",
-    icon: FiTrendingUp,
-    href: "/counter",
-    // children: [
-    //   {
-    //     label: "Job Board",
-    //     subLabel: "Find your dream design job",
-    //     href: "#",
-    //   },
-    //   {
-    //     label: "Freelance Projects",
-    //     subLabel: "An exclusive list for contract work",
-    //     href: "#",
-    //   },
-    // ],
-  },
-  { label: "Fetch Data", icon: FiCompass, href: "/fetch-data" },
+  { label: "Overview", icon: VscTypeHierarchySub, href: "/overview" },
+  { label: "Tasks", icon: GoTasklist, href: "/tasks" },
 ];
 
 export const NavBar = () => {

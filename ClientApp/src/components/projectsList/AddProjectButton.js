@@ -1,40 +1,75 @@
-import React from 'react';
-import { useHistory } from 'react-router-dom';
-import { Text, Flex, Button, useColorModeValue, Icon, Spacer } from "@chakra-ui/react";
-import { FiPlusCircle } from 'react-icons/fi';
+import React from "react";
+import {
+  Text,
+  Flex,
+  Button,
+  useColorModeValue,
+  Icon,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+  FormControl,
+  FormLabel,
+  Input,
+} from "@chakra-ui/react";
+import { FiPlusCircle } from "react-icons/fi";
 
 export const AddProjectButton = () => {
-    return (
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const initialRef = React.useRef();
+  return (
     <>
-    <Spacer />
-    <Flex
-        h="20vh"
-        alignItems="center"
-        padding={30}
-        >
+      <Flex h="14vh" alignItems="center">
         <Button
-          px={8}
-          bg={useColorModeValue('gray.200', 'gray.500')}
-          color={useColorModeValue('black.700', 'white.700')}
+          onClick={onOpen}
+          bg={useColorModeValue("gray.200", "gray.500")}
+          color={useColorModeValue("black.700", "white.700")}
           w="200px"
           h="60px"
-          rounded={'100'}
+          rounded={"100"}
           _hover={{
-            transform: 'translateY(-2px)',
-            boxShadow: 'lg',
-          }}>
+            transform: "translateY(-2px)",
+            boxShadow: "lg",
+          }}
+        >
           <Icon
-                mr="4"
-                fontSize="35"
-                _groupHover={{
-                  color: "black",
-                }}
-                as={FiPlusCircle}
+            mr="4"
+            fontSize="35"
+            _groupHover={{
+              color: "black",
+            }}
+            as={FiPlusCircle}
           />
-          <Text >
-            Add Project
-          </Text>
+          <Text>Add Project</Text>
         </Button>
+
+        <Modal isOpen={isOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Add a new project</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody pb={6}>
+              <FormControl>
+                <FormLabel>Project Name</FormLabel>
+                <Input ref={initialRef} placeholder="Name" />
+              </FormControl>
+            </ModalBody>
+
+            <ModalFooter>
+              <Button colorScheme="blue" mr={3}>
+                Save
+              </Button>
+              <Button onClick={onClose}>Cancel</Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
       </Flex>
-      </>);
-} 
+    </>
+  );
+};
