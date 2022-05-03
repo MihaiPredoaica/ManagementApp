@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Route } from "react-router";
 import { Layout } from "./components/Layout";
 import { ProjectsList } from "./components/projectsList/ProjectsList";
-import { FetchData } from "./components/FetchData";
+import { TasksBoard } from "./components/tasksBoard/TasksBoard";
 import { Counter } from "./components/Counter";
 import AuthorizeRoute from "./components/api-authorization/AuthorizeRoute";
 import ApiAuthorizationRoutes from "./components/api-authorization/ApiAuthorizationRoutes";
@@ -18,7 +18,7 @@ export default class App extends Component {
       <Layout>
         <Route exact path="/home" component={ProjectsList} />
         <Route path="/overview" component={Counter} />
-        <Route path="/tasks" component={FetchData} />
+        <Route path="/tasks" component={TasksBoard} />
         <Route
           path={ApplicationPaths.ApiAuthorizationPrefix}
           component={ApiAuthorizationRoutes}

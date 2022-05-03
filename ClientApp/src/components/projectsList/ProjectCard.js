@@ -9,7 +9,6 @@ import {
   Text,
   useColorModeValue,
   IconButton,
-  Textarea,
 } from "@chakra-ui/react";
 
 import { SettingsIcon } from "@chakra-ui/icons";
