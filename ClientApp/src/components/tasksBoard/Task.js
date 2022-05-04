@@ -14,9 +14,8 @@ import {
   MenuItem,
 } from "@chakra-ui/react";
 import useEditField from "./hooks/useEditFields";
-import { Task as ITask, TaskWithStatus } from "models/tasks";
 
-const Task = ({
+export const Task = ({
   statusId,
   task,
   index,
@@ -55,9 +54,9 @@ const Task = ({
   });
 
   useEffect(() => {
-    if (autoFocus && inputRef?.current){
-        // eslint-disable-next-line no-unused-expressions
-        inputRef?.current?.focus();
+    if (autoFocus && inputRef?.current) {
+      // eslint-disable-next-line no-unused-expressions
+      inputRef?.current?.focus();
     }
   }, [autoFocus, inputRef]);
 
@@ -77,9 +76,7 @@ const Task = ({
     );
   };
 
-  const renderTaskContent = ({
-    dragHandleProps = {},
-  }) => {
+  const renderTaskContent = ({ dragHandleProps = {} }) => {
     return (
       <Flex
         //  mb={2}

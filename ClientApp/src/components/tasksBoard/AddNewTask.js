@@ -1,9 +1,9 @@
 import React from "react";
-import { PseudoBox, Icon, Text } from "@chakra-ui/react";
+import { Box, Icon, Text } from "@chakra-ui/react";
 
 export const AddNewTaskInput = ({ onClick }) => {
   return (
-    <PseudoBox
+    <Box
       as="button"
       display="flex"
       width="100%"
@@ -24,6 +24,6 @@ export const AddNewTaskInput = ({ onClick }) => {
       <Text fontSize="sm" pl={2}>
         Add New Task
       </Text>
-    </PseudoBox>
+    </Box>
   );
 };

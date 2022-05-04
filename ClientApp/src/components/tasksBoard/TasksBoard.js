@@ -1,158 +1,104 @@
-// import React, { Component } from 'react';
-// import authService from './api-authorization/AuthorizeService'
-
-// export class FetchData extends Component {
-//   static displayName = FetchData.name;
-
-//   constructor(props) {
-//     super(props);
-//     this.state = { forecasts: [], loading: true };
-//   }
-
-//   componentDidMount() {
-//     this.populateWeatherData();
-//   }
-
-//   static renderForecastsTable(forecasts) {
-//     return (
-//       <table className='table table-striped' aria-labelledby="tabelLabel">
-//         <thead>
-//           <tr>
-//             <th>Date</th>
-//             <th>Temp. (C)</th>
-//             <th>Temp. (F)</th>
-//             <th>Summary</th>
-//           </tr>
-//         </thead>
-//         <tbody>
-//           {forecasts.map(forecast =>
-//             <tr key={forecast.date}>
-//               <td>{forecast.date}</td>
-//               <td>{forecast.temperatureC}</td>
-//               <td>{forecast.temperatureF}</td>
-//               <td>{forecast.summary}</td>
-//             </tr>
-//           )}
-//         </tbody>
-//       </table>
-//     );
-//   }
-
-//   render() {
-//     let contents = this.state.loading
-//       ? <p><em>Loading...</em></p>
-//       : FetchData.renderForecastsTable(this.state.forecasts);
-
-//     return (
-//       <div>
-//         <h1 id="tabelLabel" >Weather forecast</h1>
-//         <p>This component demonstrates fetching data from the server.</p>
-//         {contents}
-//       </div>
-//     );
-//   }
-
-//   async populateWeatherData() {
-//     const token = await authService.getAccessToken();
-//     const response = await fetch('weatherforecast', {
-//       headers: !token ? {} : { 'Authorization': `Bearer ${token}` }
-//     });
-//     const data = await response.json();
-//     this.setState({ forecasts: data, loading: false });
-//   }
-// }
-
 import React, { useEffect } from "react";
-import styled from "styled-components";
 import { DragDropContext } from "react-beautiful-dnd";
-import { DraggableElement } from "./DraggableElement";
-
-const DragDropContextContainer = styled.div`
-  padding: 20px;
-  border: 4px solid indianred;
-  border-radius: 6px;
-`;
-
-const ListGrid = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-gap: 8px;
-`;
-
-// fake data generator
-const getItems = (count, prefix) =>
-  Array.from({ length: count }, (v, k) => k).map((k) => {
-    const randomId = Math.floor(Math.random() * 1000);
-    return {
-      id: `item-${randomId}`,
-      prefix,
-      content: `item ${randomId}`
-    };
-  });
-
-const removeFromList = (list, index) => {
-  const result = Array.from(list);
-  const [removed] = result.splice(index, 1);
-  return [removed, result];
-};
-
-const addToList = (list, index, element) => {
-  const result = Array.from(list);
-  result.splice(index, 0, element);
-  return result;
-};
-
-const lists = ["todo", "inProgress", "done"];
-
-const generateLists = () =>
-  lists.reduce(
-    (acc, listKey) => ({ ...acc, [listKey]: getItems(10, listKey) }),
-    {}
-  );
+import { Flex } from "@chakra-ui/react";
+import { BoardColumn } from "./BoardColumn";
 
 export const TasksBoard = () => {
-  const [elements, setElements] = React.useState(generateLists());
+  const INITIAL_DATA = {
+    tasks: [
+      {
+        id: "task-1",
+        content: "Wash the dishes",
+        priority: "low",
+      },
+      {
+        id: "task-2",
+        content: "Procratinate",
+        priority: "high",
+      },
+      {
+        id: "task-3",
+        content: "Do some actual work",
+        priority: "medium",
+      },
+      {
+        id: "task-4",
+        content: "Sleep, please! 😢😢😢😢",
+        priority: "low",
+      },
+      {
+        id: "task-5",
+        content: "Stay awake at all costs!",
+        priority: "high",
+      },
+    ],
 
-  useEffect(() => {
-    setElements(generateLists());
-  }, []);
-
-  const onDragEnd = (result) => {
-    if (!result.destination) {
-      return;
-    }
-    const listCopy = { ...elements };
-
-    const sourceList = listCopy[result.source.droppableId];
-    const [removedElement, newSourceList] = removeFromList(
-      sourceList,
-      result.source.index
-    );
-    listCopy[result.source.droppableId] = newSourceList;
-    const destinationList = listCopy[result.destination.droppableId];
-    listCopy[result.destination.droppableId] = addToList(
-      destinationList,
-      result.destination.index,
-      removedElement
-    );
-
-    setElements(listCopy);
+    status: [
+      {
+        id: "column-1",
+        title: "To Do",
+        tasks: ["task-1", "task-2"],
+      },
+      {
+        id: "column-2",
+        title: "Doing",
+        tasks: ["task-3", "task-4", "task-5"],
+      },
+    ],
   };
 
-  return (
-    <DragDropContextContainer>
-      <DragDropContext onDragEnd={onDragEnd}>
-        <ListGrid>
-          {lists.map((listKey) => (
-            <DraggableElement
-              elements={elements[listKey]}
-              key={listKey}
-              prefix={listKey}
-            />
-          ))}
-        </ListGrid>
-      </DragDropContext>
-    </DragDropContextContainer>
-  );
-}
+  const tasksByStatus = () => {
+    const { tasks, status } = INITIAL_DATA;
+    const statusValues = status.map((s) => s.id);
+    const resolveTask = (taskId) => tasks.find((t) => t.id === taskId);
+    console.log(status);
+    const mapTasks = (taskAllIds) => taskAllIds.map(resolveTask);
+    return statusValues.map((status) => ({
+      ...status,
+      tasks: mapTasks(status.tasks),
+    }));
+  };
 
+  const moveTask = () => {};
+  const createStatus = () => {};
+  const editStatus = () => {};
+  const editTask = () => {};
+  const createTask = () => {};
+  const deleteTask = () => {};
+
+  useEffect(() => {
+    const t = tasksByStatus();
+    console.log(t);
+  }, []);
+
+  return (
+    <Flex h="100%" direction="column">
+      <Flex flex={1} mt={15} wrap="nowrap" overflowX="scroll">
+        <DragDropContext onDragEnd={moveTask}>
+          {/* {tasksByStatus.map((status) => {
+            const column = status;
+            return (
+              <BoardColumn
+                key={column.id}
+                column={column}
+                createStatus={createStatus}
+                editStatus={editStatus}
+                editTask={editTask}
+                createTask={createTask}
+                deleteTask={deleteTask}
+              />
+            );
+          })} */}
+          <BoardColumn
+            key="new-column"
+            createStatus={createStatus}
+            editStatus={editStatus}
+            editTask={editTask}
+            createTask={createTask}
+            deleteTask={deleteTask}
+          />
+        </DragDropContext>
+      </Flex>
+    </Flex>
+  );
+};
