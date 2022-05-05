@@ -1,104 +1,94 @@
-import React, { useEffect } from "react";
-import { DragDropContext } from "react-beautiful-dnd";
 import { Flex } from "@chakra-ui/react";
-import { BoardColumn } from "./BoardColumn";
+import React, { useState } from "react";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import { BoardColumn } from "./BoardColumn1";
 
-export const TasksBoard = () => {
-  const INITIAL_DATA = {
-    tasks: [
-      {
-        id: "task-1",
-        content: "Wash the dishes",
-        priority: "low",
-      },
-      {
-        id: "task-2",
-        content: "Procratinate",
-        priority: "high",
-      },
-      {
-        id: "task-3",
-        content: "Do some actual work",
-        priority: "medium",
-      },
-      {
-        id: "task-4",
-        content: "Sleep, please! 😢😢😢😢",
-        priority: "low",
-      },
-      {
-        id: "task-5",
-        content: "Stay awake at all costs!",
-        priority: "high",
-      },
-    ],
+const tasks = [
+  { id: "1", content: "First task" },
+  { id: "2", content: "Second task" },
+  { id: "3", content: "Third task" },
+  { id: "4", content: "Fourth task" },
+  { id: "5", content: "Fifth task" },
+];
 
-    status: [
-      {
-        id: "column-1",
-        title: "To Do",
-        tasks: ["task-1", "task-2"],
+const taskStatus = {
+  requested: {
+    name: "Requested",
+    items: tasks,
+  },
+  toDo: {
+    name: "To do",
+    items: [],
+  },
+  inProgress: {
+    name: "In Progress",
+    items: [],
+  },
+  done: {
+    name: "Done",
+    items: [],
+  },
+  testing: {
+    name: "testing",
+    items: [],
+  },
+  testing1: {
+    name: "testing1",
+    items: [],
+  },
+};
+
+const onDragEnd = (result, columns, setColumns) => {
+  if (!result.destination) return;
+  const { source, destination } = result;
+
+  if (source.droppableId !== destination.droppableId) {
+    const sourceColumn = columns[source.droppableId];
+    const destColumn = columns[destination.droppableId];
+    const sourceItems = [...sourceColumn.items];
+    const destItems = [...destColumn.items];
+    const [removed] = sourceItems.splice(source.index, 1);
+    destItems.splice(destination.index, 0, removed);
+    setColumns({
+      ...columns,
+      [source.droppableId]: {
+        ...sourceColumn,
+        items: sourceItems,
       },
-      {
-        id: "column-2",
-        title: "Doing",
-        tasks: ["task-3", "task-4", "task-5"],
+      [destination.droppableId]: {
+        ...destColumn,
+        items: destItems,
       },
-    ],
-  };
+    });
+  } else {
+    const column = columns[source.droppableId];
+    const copiedItems = [...column.items];
+    const [removed] = copiedItems.splice(source.index, 1);
+    copiedItems.splice(destination.index, 0, removed);
+    setColumns({
+      ...columns,
+      [source.droppableId]: {
+        ...column,
+        items: copiedItems,
+      },
+    });
+  }
+  console.log(columns);
+};
 
-  const tasksByStatus = () => {
-    const { tasks, status } = INITIAL_DATA;
-    const statusValues = status.map((s) => s.id);
-    const resolveTask = (taskId) => tasks.find((t) => t.id === taskId);
-    console.log(status);
-    const mapTasks = (taskAllIds) => taskAllIds.map(resolveTask);
-    return statusValues.map((status) => ({
-      ...status,
-      tasks: mapTasks(status.tasks),
-    }));
-  };
-
-  const moveTask = () => {};
-  const createStatus = () => {};
-  const editStatus = () => {};
-  const editTask = () => {};
-  const createTask = () => {};
-  const deleteTask = () => {};
-
-  useEffect(() => {
-    const t = tasksByStatus();
-    console.log(t);
-  }, []);
-
+export function TasksBoard() {
+  const [columns, setColumns] = useState(taskStatus);
   return (
-    <Flex h="100%" direction="column">
+    <div>
       <Flex flex={1} mt={15} wrap="nowrap" overflowX="scroll">
-        <DragDropContext onDragEnd={moveTask}>
-          {/* {tasksByStatus.map((status) => {
-            const column = status;
-            return (
-              <BoardColumn
-                key={column.id}
-                column={column}
-                createStatus={createStatus}
-                editStatus={editStatus}
-                editTask={editTask}
-                createTask={createTask}
-                deleteTask={deleteTask}
-              />
-            );
-          })} */}
-          <BoardColumn
-            key="new-column"
-            createStatus={createStatus}
-            editStatus={editStatus}
-            editTask={editTask}
-            createTask={createTask}
-            deleteTask={deleteTask}
-          />
+        <DragDropContext
+          onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
+        >
+          {Object.entries(columns).map(([columnId, column], index) => {
+            return <BoardColumn column={column} columnId={columnId} />;
+          })}
         </DragDropContext>
       </Flex>
-    </Flex>
+    </div>
   );
-};
+}
