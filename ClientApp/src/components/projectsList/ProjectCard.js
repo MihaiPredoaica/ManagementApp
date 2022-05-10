@@ -9,31 +9,28 @@ import {
   Text,
   useColorModeValue,
   IconButton,
+  Box,
 } from "@chakra-ui/react";
 
 import { SettingsIcon } from "@chakra-ui/icons";
 
 export const ProjectCard = ({ project }) => {
   return (
-    <Center p={6}>
+    <Center p={3}>
       <Button
         borderWidth="1px"
         borderRadius="xl"
-        w={{ sm: "100%", md: "480px" }}
-        height={{ sm: "180px", md: "10rem" }}
+        // w={{ sm: "100%", md: "480px" }}
+        // height={{ sm: "180px", md: "10rem" }}
         direction={{ base: "column", md: "row" }}
         bg={useColorModeValue("#f4f7fe", "#0b1437")}
         boxShadow={"xl"}
-        padding={10}
+        padding={8}
+        paddingY={20}
       >
-        <Stack bg="transparent">
-          <Image
-            w={5}
-            h={5}
-            boxSize="100%"
-            src={`Icons/icon_${project.icon}.png`}
-          />
-        </Stack>
+        <Box bg="transparent">
+          <Image w={10} h={10} src={`Icons/icon_${project.icon}.png`} />
+        </Box>
         <Stack
           flex={1}
           flexDirection="column"

@@ -6,6 +6,7 @@ import {
   useColorModeValue,
   Stack,
   Divider,
+  Flex,
 } from "@chakra-ui/react";
 import { ProjectCard } from "./ProjectCard";
 import { AddProjectButton } from "./AddProjectButton";
@@ -14,7 +15,13 @@ export const ProjectsList = () => {
   return (
     <Stack>
       <AddProjectButton />
-      <Box borderRadius="xl" bg={useColorModeValue("#cacafe", "#0b1437")}>
+      <Stack
+        borderRadius="xl"
+        bg={useColorModeValue("#cacafe", "#0b1437")}
+        flex={1}
+        mt={15}
+        wrap="nowrap"
+      >
         <Heading margin={"10px"} marginLeft={"30px"}>
           My Projects
         </Heading>
@@ -23,7 +30,7 @@ export const ProjectsList = () => {
             <ProjectCard key={project.id} project={project} />
           ))}
         </SimpleGrid>
-      </Box>
+      </Stack>
     </Stack>
   );
 };
