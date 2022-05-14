@@ -11,6 +11,7 @@ using ManagementApp.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ManagementApp.Data.Repository;
 
 namespace ManagementApp
 {
@@ -26,6 +27,11 @@ namespace ManagementApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<IProjectRepository, ProjectRepository>();
+            services.AddScoped<IProjectTaskRepository, ProjectTaskRepository>();
+            services.AddScoped<IProjectUserRepository, ProjectUserRepository>();
+            services.AddScoped<ITaskTypeRepository, TaskTypeRepository>();
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration["ConnectionString:ProjectManagementDatabase"]));

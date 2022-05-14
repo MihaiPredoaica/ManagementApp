@@ -1,10 +1,20 @@
 import React, { Component, Fragment } from "react";
-import { NavItem, NavLink } from "reactstrap";
+import { NavLink } from "reactstrap";
 import { Link } from "react-router-dom";
 import authService from "./AuthorizeService";
 import { ApplicationPaths } from "./ApiAuthorizationConstants";
-import { FiLogOut, FiLogIn, FiPlusCircle } from 'react-icons/fi';
-import { Button, Icon } from "@chakra-ui/react";
+import { FiLogOut, FiLogIn, FiPlusCircle, FiUser } from "react-icons/fi";
+import {
+  Avatar,
+  Button,
+  Center,
+  Icon,
+  Menu,
+  MenuButton,
+  MenuDivider,
+  MenuItem,
+  MenuList,
+} from "@chakra-ui/react";
 
 export class LoginMenu extends Component {
   constructor(props) {
@@ -55,33 +65,55 @@ export class LoginMenu extends Component {
   authenticatedView(userName, profilePath, logoutPath) {
     return (
       <Fragment>
-        <NavItem>
-          <NavLink tag={Link} className="text-dark" to={profilePath}>
-            Hello {userName}
-          </NavLink>
-        </NavItem>
-        <Button
-            display={{ base: "none", md: "inline-flex" }}
-            fontSize={"sm"}
-            fontWeight={600}
-            color={"white"}
-            bg={"pink.400"}
-            href={logoutPath}
-            _hover={{
-              bg: "pink.300",
-            }}
+        <Menu>
+          <MenuButton
+            as={Button}
+            rounded={"full"}
+            variant={"link"}
+            cursor={"pointer"}
+            minW={0}
           >
-            <Icon
-              mr="4"
-              fontSize="16"
-              _groupHover={{
-                color: "white",
-              }}
-              as={FiLogOut}
-            />
-            Logout
-
-          </Button>
+            <Avatar size={"sm"} src="user.png" marginX={2} />
+          </MenuButton>
+          <MenuList alignItems={"center"}>
+            <br />
+            <Center>
+              <Avatar size={"2xl"} src="user.png" />
+            </Center>
+            <br />
+            <Center>
+              <p>{userName}</p>
+            </Center>
+            <br />
+            <MenuDivider />
+            <MenuItem>
+              <NavLink tag={Link} to={profilePath}>
+                <Icon
+                  mr="4"
+                  fontSize="16"
+                  _groupHover={{
+                    color: "white",
+                  }}
+                  as={FiUser}
+                />
+                Account Profile
+              </NavLink>
+            </MenuItem>
+            <MenuItem>
+              <NavLink tag={Link} to={logoutPath}>
+                <Icon
+                  mr="4"
+                  fontSize="16"
+                  _groupHover={{
+                    color: "white",
+                  }}
+                  as={FiLogOut}
+                />
+                Logout
+              </NavLink>
+            </MenuItem>
+          </MenuList>
+        </Menu>
       </Fragment>
     );
   }
@@ -89,13 +121,13 @@ export class LoginMenu extends Component {
   anonymousView(registerPath, loginPath) {
     return (
       <Fragment>
-        <Button
+        <NavLink tag={Link} className="text-dark" to={registerPath}>
+          <Button
             display={{ base: "none", md: "inline-flex" }}
             fontSize={"sm"}
             fontWeight={600}
             color={"white"}
             bg={"gray.400"}
-            href={registerPath}
             _hover={{
               bg: "gray.300",
             }}
@@ -109,9 +141,10 @@ export class LoginMenu extends Component {
               as={FiPlusCircle}
             />
             Register
-
           </Button>
-        <Button
+        </NavLink>
+        <NavLink tag={Link} className="text-dark" to={loginPath}>
+          <Button
             display={{ base: "none", md: "inline-flex" }}
             fontSize={"sm"}
             fontWeight={600}
@@ -131,8 +164,8 @@ export class LoginMenu extends Component {
               as={FiLogIn}
             />
             Login
-
           </Button>
+        </NavLink>
       </Fragment>
     );
   }

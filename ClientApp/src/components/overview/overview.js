@@ -1,5 +1,5 @@
-import { Box, Stack, Container, Center } from "@chakra-ui/layout";
-import React from 'react';
+import { Box } from "@chakra-ui/layout";
+import React from "react";
 import { useState } from "react";
 import Tree from "react-d3-tree";
 
@@ -76,21 +76,20 @@ export const Overview = () => {
   };
 
   return (
-
-      <Box w="100%" h="83vh" bg={"gray.100"} marginY={10} >
-        <Tree
-          orientation={"vertical"}
-          data={tree}
-          zoomable={true}
-          onNodeClick={handleNodeClick}
-          translate={{
-            x: 900,
-            y: 200,
-          }}
-          renderCustomNodeElement={(nodeInfo) =>
-            renderRectSvgNode(nodeInfo, handleNodeClick)
-          }
-        />
-      </Box>
+    <Box w="100%" h="83vh" bg={"gray.100"} marginY={10}>
+      <Tree
+        orientation={"vertical"}
+        data={tree}
+        zoomable={true}
+        onNodeClick={handleNodeClick}
+        translate={{
+          x: 900,
+          y: 200,
+        }}
+        renderCustomNodeElement={(nodeInfo) =>
+          renderRectSvgNode(nodeInfo, handleNodeClick)
+        }
+      />
+    </Box>
   );
-}
+};

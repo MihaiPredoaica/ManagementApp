@@ -1,17 +1,31 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   SimpleGrid,
   Heading,
-  Box,
   useColorModeValue,
   Stack,
-  Divider,
-  Flex,
 } from "@chakra-ui/react";
 import { ProjectCard } from "./ProjectCard";
 import { AddProjectButton } from "./AddProjectButton";
+import authService from "../api-authorization/AuthorizeService";
 
 export const ProjectsList = () => {
+  const [projects, setProjects] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const token = await authService.getAccessToken();
+      const data = await fetch("project", {
+        headers: !token ? {} : { Authorization: `Bearer ${token}` },
+      });
+      const json = await data.json();
+
+      setProjects(json);
+    };
+
+    fetchData().catch(console.error);
+  }, []);
+
   return (
     <Stack>
       <AddProjectButton />
@@ -38,31 +52,32 @@ export const ProjectsList = () => {
 const ProjectList = [
   {
     id: 0,
-    title: "Project 1",
-    description: "Description for project 1 here to stay",
+    name: "Project 1",
+    description:
+      "Description for project 1 here to stay ubuyb uyb uyb uyb uybyu buyb uybuybyub buybyub",
     icon: 0,
   },
   {
     id: 1,
-    title: "Project 2",
+    name: "Project 2",
     description: "Description for project 2 here to stay",
     icon: 1,
   },
   {
     id: 2,
-    title: "Project 3",
+    name: "Project 3",
     description: "Description for project 3 here to stay",
     icon: 2,
   },
   {
     id: 3,
-    title: "Project 4",
+    name: "Project 4",
     description: "Description for project 4 here to stay",
     icon: 3,
   },
   {
     id: 4,
-    title: "Project 5",
+    name: "Project 5",
     description: "Description for project 5 here to stay",
     icon: 4,
   },

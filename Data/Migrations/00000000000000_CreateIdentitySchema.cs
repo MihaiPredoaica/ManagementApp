@@ -25,7 +25,7 @@ namespace ManagementApp.Data.Migrations
                 name: "AspNetUsers",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
+                    Id = table.Column<string>(maxLength: 256, nullable: false),
                     UserName = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
                     Email = table.Column<string>(maxLength: 256, nullable: true),
@@ -125,7 +125,7 @@ namespace ManagementApp.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(nullable: false),
+                    UserId = table.Column<string>(maxLength: 256, nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
                 },
@@ -147,7 +147,7 @@ namespace ManagementApp.Data.Migrations
                     LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
                     ProviderKey = table.Column<string>(maxLength: 128, nullable: false),
                     ProviderDisplayName = table.Column<string>(nullable: true),
-                    UserId = table.Column<string>(nullable: false)
+                    UserId = table.Column<string>(maxLength: 256, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -164,7 +164,7 @@ namespace ManagementApp.Data.Migrations
                 name: "AspNetUserRoles",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(nullable: false),
+                    UserId = table.Column<string>(maxLength: 256, nullable: false),
                     RoleId = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
@@ -188,7 +188,7 @@ namespace ManagementApp.Data.Migrations
                 name: "AspNetUserTokens",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(nullable: false),
+                    UserId = table.Column<string>(maxLength: 256, nullable: false),
                     LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
                     Name = table.Column<string>(maxLength: 128, nullable: false),
                     Value = table.Column<string>(nullable: true)
@@ -202,6 +202,53 @@ namespace ManagementApp.Data.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Project",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(maxLength: 256, nullable: false),
+                    Description = table.Column<string>(maxLength: 50000, nullable: true),
+                    Icon = table.Column<int>(nullable: true),
+                    OwnerId = table.Column<string>(maxLength: 256, nullable: false)
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProjectTask",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(maxLength: 256, nullable: false),
+                    Description = table.Column<string>(maxLength: 50000, nullable: true),
+                    Icon = table.Column<int>(nullable: true),
+                    TypeId = table.Column<int>(nullable: false),
+                    ProjectId = table.Column<int>(nullable: false),
+                    ParentTaskId = table.Column<int>(nullable: false),
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProjectUser",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(maxLength: 256, nullable: false),
+                    ProjectId = table.Column<int>(nullable: false),
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TaskType",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Layer = table.Column<int>(nullable: false),
+                    Name = table.Column<string>(maxLength: 256, nullable: false),
+                    ProjectId = table.Column<int>(nullable: false),
                 });
 
             migrationBuilder.CreateIndex(

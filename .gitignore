@@ -182,7 +182,7 @@ orleans.codegen.cs
 
 /node_modules
 
-# RIA/Silverlight projects
+# RIA/Silverlight Project
 Generated_Code/
 
 # Backup & report files from converting an old project file
@@ -197,7 +197,7 @@ UpgradeLog*.htm
 *.mdf
 *.ldf
 
-# Business Intelligence projects
+# Business Intelligence Project
 *.rdl.data
 *.bim.layout
 *.bim_*.settings

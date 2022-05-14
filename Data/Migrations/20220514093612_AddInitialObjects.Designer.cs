@@ -4,14 +4,16 @@ using ManagementApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ManagementApp.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220514093612_AddInitialObjects")]
+    partial class AddInitialObjects
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -204,7 +206,7 @@ namespace ManagementApp.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("OwnerId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -429,11 +431,11 @@ namespace ManagementApp.Data.Migrations
 
             modelBuilder.Entity("ManagementApp.Models.Project", b =>
                 {
-                    b.HasOne("ManagementApp.Models.ApplicationUser", "Owner")
+                    b.HasOne("ManagementApp.Models.ApplicationUser", "ProjectOwner")
                         .WithMany()
                         .HasForeignKey("OwnerId");
 
-                    b.Navigation("Owner");
+                    b.Navigation("ProjectOwner");
                 });
 
             modelBuilder.Entity("ManagementApp.Models.ProjectTask", b =>
@@ -464,7 +466,7 @@ namespace ManagementApp.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("ManagementApp.Models.ApplicationUser", "User")
-                        .WithMany("Projects")
+                        .WithMany("Project")
                         .HasForeignKey("UserId");
 
                     b.Navigation("Project");
@@ -534,7 +536,7 @@ namespace ManagementApp.Data.Migrations
 
             modelBuilder.Entity("ManagementApp.Models.ApplicationUser", b =>
                 {
-                    b.Navigation("Projects");
+                    b.Navigation("Project");
                 });
 
             modelBuilder.Entity("ManagementApp.Models.Project", b =>

@@ -4,7 +4,7 @@ import { Link, Flex, Image } from "@chakra-ui/react";
 export const Logo = () => {
   return (
     <Link
-      href="/home"
+      href="/"
       style={{ textDecoration: "none" }}
       _focus={{ boxShadow: "none" }}
     >
