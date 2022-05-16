@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useQuery } from "@chakra-ui/react";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import {
   SimpleGrid,
   Heading,
   useColorModeValue,
   Stack,
+  Text,
 } from "@chakra-ui/react";
 import { ProjectCard } from "./ProjectCard";
 import { AddProjectButton } from "./AddProjectButton";
@@ -13,19 +14,32 @@ import authService from "../api-authorization/AuthorizeService";
 export const ProjectsList = () => {
   const [projects, setProjects] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const token = await authService.getAccessToken();
-      const data = await fetch("project", {
-        headers: !token ? {} : { Authorization: `Bearer ${token}` },
-      });
-      const json = await data.json();
+  const fetchProjects = async () => {
+    const token = await authService.getAccessToken();
+    const data = await fetch("project", {
+      headers: !token ? {} : { Authorization: `Bearer ${token}` },
+    });
+    const json = await data.json();
+    return json;
+  };
 
-      setProjects(json);
-    };
+  const queryClient = useQueryClient();
 
-    fetchData().catch(console.error);
-  }, []);
+  const postProject = async () => {};
+
+  // Queries
+  const { data, status } = useQuery("projectList", fetchProjects);
+
+  // Mutations
+
+  const mutation = useMutation(postProject, {
+    onSuccess: () => {
+      // Invalidate and refetch
+
+      queryClient.invalidateQueries("projectList");
+    },
+  });
+  console.log(data);
 
   return (
     <Stack>
@@ -41,7 +55,7 @@ export const ProjectsList = () => {
           My Projects
         </Heading>
         <SimpleGrid columns={3} spacingX="20px" spacingY="10px">
-          {projects.map((project) => (
+          {data?.map((project) => (
             <ProjectCard key={project.id} project={project} />
           ))}
         </SimpleGrid>

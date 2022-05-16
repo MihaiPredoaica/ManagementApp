@@ -16,6 +16,7 @@ import {
   FormControl,
   FormLabel,
   Input,
+  Textarea,
 } from "@chakra-ui/react";
 import { FiPlusCircle } from "react-icons/fi";
 
@@ -58,6 +59,10 @@ export const AddProjectButton = () => {
               <FormControl>
                 <FormLabel>Project Name</FormLabel>
                 <Input ref={initialRef} placeholder="Name" />
+              </FormControl>
+              <FormControl>
+                <FormLabel>Description</FormLabel>
+                <Textarea ref={initialRef} placeholder="Description" />
               </FormControl>
             </ModalBody>
 
