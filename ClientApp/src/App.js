@@ -9,12 +9,12 @@ import { Overview } from "./components/overview/Overview";
 import { ProjectsList } from "./components/projectsList/ProjectsList";
 
 import "./custom.css";
+import { QueryClient, QueryClientProvider } from "react-query";
 
-export default class App extends Component {
-  static displayName = App.name;
-
-  render() {
-    return (
+export default function App() {
+  const queryClient = new QueryClient();
+  return (
+    <QueryClientProvider client={queryClient}>
       <Layout>
         <Switch>
           <AuthorizeRoute path="/home" component={ProjectsList} />
@@ -27,6 +27,6 @@ export default class App extends Component {
           <Redirect path="*" to="/home" />
         </Switch>
       </Layout>
-    );
-  }
+    </QueryClientProvider>
+  );
 }

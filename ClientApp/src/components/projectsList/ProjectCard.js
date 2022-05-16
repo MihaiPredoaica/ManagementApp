@@ -4,9 +4,7 @@ import {
   Center,
   Heading,
   Image,
-  Button,
   Stack,
-  HStack,
   Text,
   useColorModeValue,
   IconButton,
@@ -18,12 +16,13 @@ import { SettingsIcon } from "@chakra-ui/icons";
 
 export const ProjectCard = ({ project }) => {
   return (
-    <Center p={3}>
+    <Flex padding={3}>
       <Box
         borderWidth="1px"
         borderRadius="xl"
-        w={{ sm: "100%", md: "480px" }}
-        maxHeight={{ sm: "300px", md: "10rem" }}
+        maxw={{ sm: "500px", md: "480px" }}
+        maxHeight={"300px"}
+        minH={"100px"}
         direction={{ base: "column", md: "row" }}
         bg={useColorModeValue("#f4f7fe", "#0b1437")}
         boxShadow={"xl"}
@@ -54,6 +53,7 @@ export const ProjectCard = ({ project }) => {
                 flexDirection="column"
                 justifyContent="left"
                 textAlign={"center"}
+                noOfLines={2}
                 color={useColorModeValue("gray.700", "gray.400")}
                 px={3}
               >
@@ -72,6 +72,6 @@ export const ProjectCard = ({ project }) => {
           </Stack>
         </Flex>
       </Box>
-    </Center>
+    </Flex>
   );
 };

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useQuery } from "@chakra-ui/react";
 import {
   SimpleGrid,
   Heading,
@@ -40,7 +41,7 @@ export const ProjectsList = () => {
           My Projects
         </Heading>
         <SimpleGrid columns={3} spacingX="20px" spacingY="10px">
-          {ProjectList.map((project) => (
+          {projects.map((project) => (
             <ProjectCard key={project.id} project={project} />
           ))}
         </SimpleGrid>
