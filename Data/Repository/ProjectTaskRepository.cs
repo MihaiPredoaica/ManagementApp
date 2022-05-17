@@ -1,4 +1,5 @@
 ﻿using ManagementApp.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,33 +15,33 @@ namespace ManagementApp.Data.Repository
             _dbContext = dbContext;
         }
 
-        public void Add(ProjectTask projectTask)
+        public async Task AddAsync(ProjectTask projectTask)
         {
-            _dbContext.Add(projectTask);
-            _dbContext.SaveChanges();
+            await _dbContext.AddAsync(projectTask);
+            await _dbContext.SaveChangesAsync();
         }
 
-        public void Delete(ProjectTask projectTask)
+        public async Task DeleteAsync(ProjectTask projectTask)
         {
             _dbContext.ProjectTasks.Remove(projectTask);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
         }
 
-        public IList<ProjectTask> GetProjectTasks()
+        public async Task<IList<ProjectTask>> GetProjectTasksAsync()
         {
-            return _dbContext.ProjectTasks.ToList();
+            return await _dbContext.ProjectTasks.ToListAsync();
         }
 
-        public ProjectTask GetProjectTask(int id)
+        public async Task<ProjectTask> GetProjectTaskAsync(int id)
         {
-            return _dbContext.ProjectTasks.FirstOrDefault(x => x.Id == id);
+            return await _dbContext.ProjectTasks.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public ProjectTask Update(ProjectTask projectTaskChanges)
+        public async Task<ProjectTask> UpdateAsync(ProjectTask projectTaskChanges)
         {
             var projectTask = _dbContext.ProjectTasks.Attach(projectTaskChanges);
-            projectTask.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            _dbContext.SaveChanges();
+            projectTask.State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
             return projectTaskChanges;
         }
     }

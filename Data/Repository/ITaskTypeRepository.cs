@@ -8,10 +8,10 @@ namespace ManagementApp.Data.Repository
 {
     public interface ITaskTypeRepository
     {
-        IList<TaskType> GetTaskTypes();
-        TaskType GetTaskType(int taskTypeId);
-        void Add(TaskType taskType);
-        TaskType Update(TaskType taskType);
-        void Delete(TaskType taskType);
+        Task<IList<TaskType>> GetTaskTypesAsync();
+        Task<TaskType> GetTaskTypeAsync(int taskTypeId);
+        Task AddAsync(TaskType taskType);
+        Task<TaskType> UpdateAsync(TaskType taskType);
+        Task DeleteAsync(TaskType taskType);
     }
 }

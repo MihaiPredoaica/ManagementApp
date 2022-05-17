@@ -40,6 +40,7 @@ export class LoginMenu extends Component {
       authService.isAuthenticated(),
       authService.getUser(),
     ]);
+    console.log(authService.getUser());
     this.setState({
       isAuthenticated,
       userName: user && user.name,

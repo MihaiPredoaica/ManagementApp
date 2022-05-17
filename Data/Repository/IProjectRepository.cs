@@ -8,10 +8,10 @@ namespace ManagementApp.Data.Repository
 {
     public interface IProjectRepository
     {
-        IList<Project> GetProjects();
-        Project GetProject(int projectId);
-        void Add(Project project);
-        Project Update(Project project);
-        void Delete(Project project);
+        Task<IList<Project>> GetProjectsAsync();
+        Task<Project> GetProjectAsync(int projectId);
+        Task AddAsync(Project project);
+        Task<Project> UpdateAsync(Project project);
+        Task DeleteAsync(Project project);
     }
 }

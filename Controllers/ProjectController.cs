@@ -1,6 +1,7 @@
 ﻿using ManagementApp.Data.Repository;
 using ManagementApp.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -23,9 +24,48 @@ namespace ManagementApp.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Project> Get()
+        public async Task<IEnumerable<Project>> Get()
         {
-            return _projectRepo.GetProjects();
+            return await _projectRepo.GetProjectsAsync();
         }
+
+
+        [HttpPost]
+        public async Task<ActionResult<Project>> Post(Project model)
+        {
+            try
+            {
+                await _projectRepo.AddAsync(model);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        //public async Task<IActionResult> Delete(int id)
+        //{
+        //    try
+        //    {
+        //        var project = await _projectRepo.GetProject(id);
+        //        if (project == null)
+        //        {
+        //            return NotFound($"Could not find project");
+        //        }
+
+        //        _projectRepo.Delete(oldCamp);
+        //        if (await _campRepository.SaveChangesAsync())
+        //        {
+        //            return Ok();
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return this.StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+        //    }
+
+        //    return BadRequest();
+        //}
     }
 }

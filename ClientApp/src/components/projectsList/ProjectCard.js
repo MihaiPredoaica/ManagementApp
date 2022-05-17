@@ -1,18 +1,16 @@
 import React from "react";
 
 import {
-  Center,
   Heading,
   Image,
   Stack,
   Text,
   useColorModeValue,
-  IconButton,
   Box,
   Flex,
 } from "@chakra-ui/react";
 
-import { SettingsIcon } from "@chakra-ui/icons";
+import { ProjectSettingsMenu } from "./ProjectSettingsMenu";
 
 export const ProjectCard = ({ project }) => {
   return (
@@ -62,13 +60,7 @@ export const ProjectCard = ({ project }) => {
             </Stack>
           </Flex>
           <Stack>
-            <IconButton
-              variant="outline"
-              colorScheme="blue"
-              w={"30px"}
-              h={"40px"}
-              icon={<SettingsIcon />}
-            />
+            <ProjectSettingsMenu />
           </Stack>
         </Flex>
       </Box>

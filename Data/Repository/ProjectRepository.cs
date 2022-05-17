@@ -1,4 +1,5 @@
 ﻿using ManagementApp.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,33 +15,33 @@ namespace ManagementApp.Data.Repository
             _dbContext = dbContext;
         }
 
-        public void Add(Project project)
+        public async Task AddAsync(Project project)
         {
-            _dbContext.Add(project);
-            _dbContext.SaveChanges();
+            await _dbContext.AddAsync(project);
+            await _dbContext.SaveChangesAsync();
         }
 
-        public void Delete(Project project)
+        public async Task DeleteAsync(Project project)
         {
             _dbContext.Project.Remove(project);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
         }
 
-        public IList<Project> GetProjects()
+        public async Task<IList<Project>> GetProjectsAsync()
         {
-            return _dbContext.Project.ToList();
+            return await _dbContext.Project.ToListAsync();
         }
 
-        public Project GetProject(int id)
+        public async Task<Project> GetProjectAsync(int id)
         {
-            return _dbContext.Project.FirstOrDefault(x => x.Id == id);
+            return await _dbContext.Project.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public Project Update(Project projectChanges)
+        public async Task<Project> UpdateAsync(Project projectChanges)
         {
             var project = _dbContext.Project.Attach(projectChanges);
-            project.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            _dbContext.SaveChanges();
+            project.State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
             return projectChanges;
         }
     }

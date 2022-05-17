@@ -1,4 +1,5 @@
 ﻿using ManagementApp.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,33 +15,33 @@ namespace ManagementApp.Data.Repository
             _dbContext = dbContext;
         }
 
-        public void Add(TaskType taskType)
+        public async Task AddAsync(TaskType taskType)
         {
-            _dbContext.Add(taskType);
-            _dbContext.SaveChanges();
+            await _dbContext.AddAsync(taskType);
+            await _dbContext.SaveChangesAsync();
         }
 
-        public void Delete(TaskType taskType)
+        public async Task DeleteAsync(TaskType taskType)
         {
             _dbContext.TaskTypes.Remove(taskType);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
         }
 
-        public IList<TaskType> GetTaskTypes()
+        public async Task<IList<TaskType>> GetTaskTypesAsync()
         {
-            return _dbContext.TaskTypes.ToList();
+            return await _dbContext.TaskTypes.ToListAsync();
         }
 
-        public TaskType GetTaskType(int id)
+        public async Task<TaskType> GetTaskTypeAsync(int id)
         {
-            return _dbContext.TaskTypes.FirstOrDefault(x => x.Id == id);
+            return await _dbContext.TaskTypes.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public TaskType Update(TaskType taskTypeChanges)
+        public async Task<TaskType> UpdateAsync(TaskType taskTypeChanges)
         {
             var taskType = _dbContext.TaskTypes.Attach(taskTypeChanges);
-            taskType.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            _dbContext.SaveChanges();
+            taskType.State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
             return taskTypeChanges;
         }
     }
