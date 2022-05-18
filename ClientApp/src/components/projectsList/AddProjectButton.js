@@ -24,7 +24,15 @@ import authService from "../api-authorization/AuthorizeService";
 
 export const AddProjectButton = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [image, setImage] = useState(1);
+
+  const onModalOpen = () => {
+    setImage(0);
+    setName("");
+    setDescription("");
+    onOpen();
+  };
+
+  const [image, setImage] = useState(0);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
 
@@ -47,7 +55,7 @@ export const AddProjectButton = () => {
             "Content-Type": "application/json;charset=UTF-8",
           },
     });
-    const json = await data.json();
+    const json = JSON.stringify(data);
     return json;
   };
 
@@ -63,7 +71,7 @@ export const AddProjectButton = () => {
     <>
       <Flex h="14vh" alignItems="center">
         <Button
-          onClick={onOpen}
+          onClick={onModalOpen}
           bg={useColorModeValue("gray.200", "gray.500")}
           color={useColorModeValue("black.700", "white.700")}
           w="200px"

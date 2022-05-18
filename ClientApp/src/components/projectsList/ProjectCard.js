@@ -43,7 +43,7 @@ export const ProjectCard = ({ project }) => {
               justifyContent="center"
               alignItems="center"
             >
-              <Heading fontSize={"xl"} fontFamily={"body"}>
+              <Heading px={3} fontSize={"xl"} fontFamily={"body"}>
                 {project.name}
               </Heading>
               <Text
@@ -60,7 +60,7 @@ export const ProjectCard = ({ project }) => {
             </Stack>
           </Flex>
           <Stack>
-            <ProjectSettingsMenu />
+            <ProjectSettingsMenu project={project} />
           </Stack>
         </Flex>
       </Box>

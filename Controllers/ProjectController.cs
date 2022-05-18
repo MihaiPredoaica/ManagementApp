@@ -3,10 +3,8 @@ using ManagementApp.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ManagementApp.Controllers
@@ -40,32 +38,37 @@ namespace ManagementApp.Controllers
             }
             catch (Exception ex)
             {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
 
-        //public async Task<IActionResult> Delete(int id)
-        //{
-        //    try
-        //    {
-        //        var project = await _projectRepo.GetProject(id);
-        //        if (project == null)
-        //        {
-        //            return NotFound($"Could not find project");
-        //        }
+        [HttpPut]
+        public async Task<ActionResult<Project>> Put(Project model)
+        {
+            try
+            {
+                await _projectRepo.UpdateAsync(model);
+                return Ok();   
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
 
-        //        _projectRepo.Delete(oldCamp);
-        //        if (await _campRepository.SaveChangesAsync())
-        //        {
-        //            return Ok();
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return this.StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-        //    }
-
-        //    return BadRequest();
-        //}
+        [HttpDelete]
+        public async Task<IActionResult> Delete(Project model)
+        {
+            try
+            {
+                var project = await _projectRepo.GetProjectAsync(model.Id);
+                await _projectRepo.DeleteAsync(project);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
     }
 }

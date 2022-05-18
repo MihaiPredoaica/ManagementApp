@@ -6,14 +6,11 @@ import {
   MenuList,
 } from "@chakra-ui/react";
 import React from "react";
-import {
-  DeleteIcon,
-  EditIcon,
-  ExternalLinkIcon,
-  SettingsIcon,
-} from "@chakra-ui/icons";
+import { DeleteIcon, ExternalLinkIcon, SettingsIcon } from "@chakra-ui/icons";
+import { EditProjectButton } from "./EditProjectButton";
+import { DeleteProjectButton } from "./DeleteProjectButton";
 
-export const ProjectSettingsMenu = () => {
+export const ProjectSettingsMenu = ({ project }) => {
   return (
     <Menu>
       <MenuButton
@@ -27,8 +24,8 @@ export const ProjectSettingsMenu = () => {
       />
       <MenuList>
         <MenuItem icon={<ExternalLinkIcon />}>Go to Project</MenuItem>
-        <MenuItem icon={<DeleteIcon />}>Delete Project</MenuItem>
-        <MenuItem icon={<EditIcon />}>Edit Project</MenuItem>
+        <DeleteProjectButton id={project.id} />
+        <EditProjectButton project={project} />
       </MenuList>
     </Menu>
   );
