@@ -17,54 +17,45 @@ import {
   FormLabel,
   Input,
   Textarea,
+  FormErrorMessage,
 } from "@chakra-ui/react";
 import { FiPlusCircle } from "react-icons/fi";
 import { ProjectImagePicker } from "./ProjectImagePicker";
 import authService from "../api-authorization/AuthorizeService";
+import useProjectQuery from "./hooks/useProjectQuery";
 
 export const AddProjectButton = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const onModalOpen = () => {
-    setImage(0);
+    setIcon(0);
     setName("");
     setDescription("");
     onOpen();
   };
 
-  const [image, setImage] = useState(0);
+  const [icon, setIcon] = useState(0);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [nameError, setNameError] = useState(false);
+  const [descriptionError, setDescriptionError] = useState(false);
 
-  const postProject = async (user) => {
-    const token = await authService.getAccessToken();
-    console.log(token);
-    const data = await fetch("project", {
-      method: "POST",
-      body: JSON.stringify({
-        name,
-        description,
-        icon: image,
-        ownerId: user.sub,
-      }),
-      headers: !token
-        ? {}
-        : {
-            Authorization: `Bearer ${token}`,
-            Accept: "application/json, text/plain",
-            "Content-Type": "application/json;charset=UTF-8",
-          },
-    });
-    const json = JSON.stringify(data);
-    return json;
-  };
+  const { addMutation } = useProjectQuery();
 
   const handleSaveClick = async () => {
-    const [user] = await Promise.all([authService.getUser()]);
-
-    postProject(user);
-    console.log(name, description, image, user.sub);
-    onClose();
+    if (!name || !description) {
+      setNameError(name === "");
+      setDescriptionError(description === "");
+    } else {
+      addMutation.mutate(
+        { name, description, icon },
+        {
+          onSuccess: () => {
+            onClose();
+          },
+        }
+      );
+    }
   };
 
   return (
@@ -99,22 +90,34 @@ export const AddProjectButton = () => {
             <ModalHeader>Add a new project</ModalHeader>
             <ModalCloseButton />
             <ModalBody pb={6}>
-              <FormControl pb={6}>
+              <FormControl pb={6} isInvalid={nameError}>
                 <FormLabel>Project Name</FormLabel>
                 <Input
-                  onChange={(e) => setName(e.target.value)}
+                  onChange={(e) => {
+                    setNameError(false);
+                    setName(e.target.value);
+                  }}
                   placeholder="Name"
                 />
+                <FormErrorMessage>
+                  {nameError && "Project name required."}
+                </FormErrorMessage>
               </FormControl>
-              <FormControl pb={6}>
+              <FormControl pb={6} isInvalid={descriptionError}>
                 <FormLabel>Description</FormLabel>
                 <Textarea
-                  onChange={(e) => setDescription(e.target.value)}
+                  onChange={(e) => {
+                    setDescriptionError(false);
+                    setDescription(e.target.value);
+                  }}
                   placeholder="Description"
                 />
+                <FormErrorMessage>
+                  {descriptionError && "Project description is required."}
+                </FormErrorMessage>
               </FormControl>
               <FormControl pb={6}>
-                <ProjectImagePicker image={image} setImage={setImage} />
+                <ProjectImagePicker icon={icon} setIcon={setIcon} />
               </FormControl>
             </ModalBody>
 

@@ -17,52 +17,34 @@ import {
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import authService from "../api-authorization/AuthorizeService";
+import useProjectQuery from "./hooks/useProjectQuery";
 import { ProjectImagePicker } from "./ProjectImagePicker";
 
 export const EditProjectButton = ({ project }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const onModalOpen = () => {
-    setImage(project.icon);
+    setIcon(project.icon);
     setName(project.name);
     setDescription(project.description);
     onOpen();
   };
 
-  const [image, setImage] = useState(0);
+  const [icon, setIcon] = useState(0);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
 
-  const putProject = async (user) => {
-    const token = await authService.getAccessToken();
-    console.log(token);
-    const data = await fetch("project", {
-      method: "PUT",
-      body: JSON.stringify({
-        id: project.id,
-        name,
-        description,
-        icon: image,
-        ownerId: user.sub,
-      }),
-      headers: !token
-        ? {}
-        : {
-            Authorization: `Bearer ${token}`,
-            Accept: "application/json, text/plain",
-            "Content-Type": "application/json;charset=UTF-8",
-          },
-    });
-    const json = JSON.stringify(data);
-    return json;
-  };
+  const { editMutation } = useProjectQuery();
 
   const handleSaveClick = async () => {
-    const [user] = await Promise.all([authService.getUser()]);
-
-    putProject(user);
-    console.log(name, description, image, user.sub);
-    onClose();
+    editMutation.mutate(
+      { ...project, name, description, icon },
+      {
+        onSuccess: () => {
+          onClose();
+        },
+      }
+    );
   };
 
   return (
@@ -94,7 +76,7 @@ export const EditProjectButton = ({ project }) => {
               />
             </FormControl>
             <FormControl pb={6}>
-              <ProjectImagePicker image={image} setImage={setImage} />
+              <ProjectImagePicker icon={icon} setIcon={setIcon} />
             </FormControl>
           </ModalBody>
 

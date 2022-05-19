@@ -9,42 +9,23 @@ import {
   ModalBody,
   ModalCloseButton,
   useDisclosure,
-  FormControl,
-  FormLabel,
-  Input,
-  Textarea,
   MenuItem,
   Text,
 } from "@chakra-ui/react";
 import React from "react";
-import authService from "../api-authorization/AuthorizeService";
+import useProjectQuery from "./hooks/useProjectQuery";
 
 export const DeleteProjectButton = ({ id }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const deleteProject = async () => {
-    const token = await authService.getAccessToken();
-    console.log(token);
-    const data = await fetch("project", {
-      method: "DELETE",
-      body: JSON.stringify({
-        id,
-      }),
-      headers: !token
-        ? {}
-        : {
-            Authorization: `Bearer ${token}`,
-            Accept: "application/json, text/plain",
-            "Content-Type": "application/json;charset=UTF-8",
-          },
-    });
-    const json = JSON.stringify(data);
-    return json;
-  };
+  const { deleteMutation } = useProjectQuery();
 
   const handleSaveClick = async () => {
-    await deleteProject();
-    onClose();
+    deleteMutation.mutate(id, {
+      onSuccess: () => {
+        onClose();
+      },
+    });
   };
 
   return (

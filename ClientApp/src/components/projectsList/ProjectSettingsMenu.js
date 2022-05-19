@@ -6,7 +6,7 @@ import {
   MenuList,
 } from "@chakra-ui/react";
 import React from "react";
-import { DeleteIcon, ExternalLinkIcon, SettingsIcon } from "@chakra-ui/icons";
+import { ExternalLinkIcon, SettingsIcon } from "@chakra-ui/icons";
 import { EditProjectButton } from "./EditProjectButton";
 import { DeleteProjectButton } from "./DeleteProjectButton";
 

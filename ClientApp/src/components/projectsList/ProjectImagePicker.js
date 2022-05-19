@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 
-export const ProjectImagePicker = ({ image, setImage }) => {
+export const ProjectImagePicker = ({ icon, setIcon }) => {
   return (
     <Popover placement="left">
       <PopoverTrigger>
@@ -24,7 +24,7 @@ export const ProjectImagePicker = ({ image, setImage }) => {
           h="80px"
           w="80px"
         >
-          <Image w={10} h={10} src={`Icons/icon_${image}.png`} />
+          <Image w={10} h={10} src={`Icons/icon_${icon}.png`} />
         </Button>
       </PopoverTrigger>
       <PopoverContent>
@@ -37,7 +37,7 @@ export const ProjectImagePicker = ({ image, setImage }) => {
               return (
                 <Button
                   key={i}
-                  onClick={() => setImage(i)}
+                  onClick={() => setIcon(i)}
                   borderWidth="1px"
                   borderRadius="xl"
                   h="70px"
