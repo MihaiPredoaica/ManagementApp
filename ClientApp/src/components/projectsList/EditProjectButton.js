@@ -14,9 +14,9 @@ import {
   Input,
   Textarea,
   MenuItem,
+  FormErrorMessage,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-import authService from "../api-authorization/AuthorizeService";
 import useProjectQuery from "./hooks/useProjectQuery";
 import { ProjectImagePicker } from "./ProjectImagePicker";
 
@@ -33,18 +33,25 @@ export const EditProjectButton = ({ project }) => {
   const [icon, setIcon] = useState(0);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [nameError, setNameError] = useState(false);
+  const [descriptionError, setDescriptionError] = useState(false);
 
   const { editMutation } = useProjectQuery();
 
   const handleSaveClick = async () => {
-    editMutation.mutate(
-      { ...project, name, description, icon },
-      {
-        onSuccess: () => {
-          onClose();
-        },
-      }
-    );
+    if (!name || !description) {
+      setNameError(name === "");
+      setDescriptionError(description === "");
+    } else {
+      editMutation.mutate(
+        { ...project, name, description, icon },
+        {
+          onSuccess: () => {
+            onClose();
+          },
+        }
+      );
+    }
   };
 
   return (
@@ -59,21 +66,33 @@ export const EditProjectButton = ({ project }) => {
           <ModalHeader>Edit project</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
-            <FormControl pb={6}>
+            <FormControl pb={6} isInvalid={nameError}>
               <FormLabel>Project Name</FormLabel>
               <Input
                 value={name}
-                onChange={(e) => setName(e.target.value)}
+                onChange={(e) => {
+                  setNameError(false);
+                  setName(e.target.value);
+                }}
                 placeholder="Name"
               />
+              <FormErrorMessage>
+                {nameError && "Project name required."}
+              </FormErrorMessage>
             </FormControl>
-            <FormControl pb={6}>
+            <FormControl pb={6} isInvalid={descriptionError}>
               <FormLabel>Description</FormLabel>
               <Textarea
                 value={description}
-                onChange={(e) => setDescription(e.target.value)}
+                onChange={(e) => {
+                  setDescriptionError(false);
+                  setDescription(e.target.value);
+                }}
                 placeholder="Description"
               />
+              <FormErrorMessage>
+                {descriptionError && "Project description is required."}
+              </FormErrorMessage>
             </FormControl>
             <FormControl pb={6}>
               <ProjectImagePicker icon={icon} setIcon={setIcon} />

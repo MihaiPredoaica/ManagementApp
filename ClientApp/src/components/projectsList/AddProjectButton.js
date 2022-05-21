@@ -21,7 +21,6 @@ import {
 } from "@chakra-ui/react";
 import { FiPlusCircle } from "react-icons/fi";
 import { ProjectImagePicker } from "./ProjectImagePicker";
-import authService from "../api-authorization/AuthorizeService";
 import useProjectQuery from "./hooks/useProjectQuery";
 
 export const AddProjectButton = () => {
