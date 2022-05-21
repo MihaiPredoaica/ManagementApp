@@ -1,4 +1,5 @@
 import { Box } from "@chakra-ui/layout";
+import { useColorModeValue } from "@chakra-ui/react";
 import React from "react";
 import { useState } from "react";
 import Tree from "react-d3-tree";
@@ -76,14 +77,21 @@ export const Overview = () => {
   };
 
   return (
-    <Box w="100%" h="83vh" bg={"gray.100"} marginY={10}>
+    <Box
+      w="100%"
+      h="83vh"
+      bg={useColorModeValue("#f4f7fe", "#0b1437")}
+      marginY={7}
+      borderWidth="1px"
+      borderRadius="xl"
+    >
       <Tree
         orientation={"vertical"}
         data={tree}
         zoomable={true}
         onNodeClick={handleNodeClick}
         translate={{
-          x: 900,
+          x: 700,
           y: 200,
         }}
         renderCustomNodeElement={(nodeInfo) =>
