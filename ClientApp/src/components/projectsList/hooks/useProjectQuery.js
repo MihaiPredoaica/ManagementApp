@@ -10,7 +10,6 @@ function useProjectQuery() {
       headers: !token ? {} : { Authorization: `Bearer ${token}` },
     });
     const json = await data.json();
-    console.log(json);
     return json;
   };
 

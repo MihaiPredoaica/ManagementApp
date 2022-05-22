@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import {
   Heading,
@@ -11,8 +11,11 @@ import {
 } from "@chakra-ui/react";
 
 import { ProjectSettingsMenu } from "./ProjectSettingsMenu";
+import { AuthContext } from "../../context/AuthContext";
 
 export const ProjectCard = ({ project }) => {
+  const { currentUser } = useContext(AuthContext);
+
   return (
     <Flex padding={3}>
       <Box
@@ -59,9 +62,11 @@ export const ProjectCard = ({ project }) => {
               </Text>
             </Stack>
           </Flex>
-          <Stack>
-            <ProjectSettingsMenu project={project} />
-          </Stack>
+          {project?.ownerId === currentUser?.sub && (
+            <Stack>
+              <ProjectSettingsMenu project={project} />
+            </Stack>
+          )}
         </Flex>
       </Box>
     </Flex>
