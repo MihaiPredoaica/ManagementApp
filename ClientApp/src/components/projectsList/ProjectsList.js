@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import {
   SimpleGrid,
   Heading,
@@ -8,26 +8,32 @@ import {
 import { ProjectCard } from "./ProjectCard";
 import { AddProjectButton } from "./AddProjectButton";
 import useProjectQuery from "./hooks/useProjectQuery";
+import { AuthContext } from "../../context/AuthContext";
+import authService from "../api-authorization/AuthorizeService";
 
 export const ProjectsList = () => {
-  const { data } = useProjectQuery();
+  const { projects, usersLoading, projectsLoading } = useProjectQuery();
+  const { setCurrentUser } = useContext(AuthContext);
+  const stackColor = useColorModeValue("#cacafe", "#0b1437");
 
-  console.log(data);
+  useEffect(() => {
+    async function getCurrentUser() {
+      setCurrentUser(await authService.getUser());
+    }
+    getCurrentUser();
+  }, [setCurrentUser]);
+
+  if (usersLoading || projectsLoading) return "Loading...";
+
   return (
     <Stack>
       <AddProjectButton />
-      <Stack
-        borderRadius="xl"
-        bg={useColorModeValue("#cacafe", "#0b1437")}
-        flex={1}
-        mt={15}
-        wrap="nowrap"
-      >
+      <Stack borderRadius="xl" bg={stackColor} flex={1} mt={15} wrap="nowrap">
         <Heading margin={"10px"} marginLeft={"30px"}>
           My Projects
         </Heading>
         <SimpleGrid columns={3} spacingX="20px" spacingY="10px">
-          {data?.map((project) => (
+          {projects?.map((project) => (
             <ProjectCard key={project.id} project={project} />
           ))}
         </SimpleGrid>

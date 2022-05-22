@@ -9,7 +9,7 @@ namespace ManagementApp.Data
     public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>
     {
         public DbSet<Project> Project { get; set; }
-        public DbSet<ProjectUser> ProjectUsers { get; set; }
+        public DbSet<ProjectUser> ProjectUser { get; set; }
         public DbSet<ProjectTask> ProjectTasks { get; set; }
         public DbSet<TaskType> TaskTypes { get; set; }
 

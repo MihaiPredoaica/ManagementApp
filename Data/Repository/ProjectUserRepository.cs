@@ -23,23 +23,23 @@ namespace ManagementApp.Data.Repository
 
         public async Task DeleteAsync(ProjectUser projectUser)
         {
-            _dbContext.ProjectUsers.Remove(projectUser);
+            _dbContext.ProjectUser.Remove(projectUser);
             await _dbContext.SaveChangesAsync();
         }
 
         public async Task<IList<ProjectUser>> GetProjectUsersAsync()
         {
-            return await _dbContext.ProjectUsers.ToListAsync();
+            return await _dbContext.ProjectUser.ToListAsync();
         }
 
         public async Task<ProjectUser> GetProjectUserAsync(int id)
         {
-            return await _dbContext.ProjectUsers.FirstOrDefaultAsync(x => x.Id == id);
+            return await _dbContext.ProjectUser.FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<ProjectUser> UpdateAsync(ProjectUser projectUserChanges)
         {
-            var projectUser = _dbContext.ProjectUsers.Attach(projectUserChanges);
+            var projectUser = _dbContext.ProjectUser.Attach(projectUserChanges);
             projectUser.State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
             return projectUserChanges;

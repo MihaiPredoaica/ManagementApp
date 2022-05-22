@@ -8,6 +8,5 @@ namespace ManagementApp.Models
 {
     public class ApplicationUser : IdentityUser
     {
-        public virtual ICollection<ProjectUser> Projects { get; set; }
     }
 }

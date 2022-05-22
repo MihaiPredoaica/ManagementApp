@@ -164,6 +164,9 @@ namespace ManagementApp.Data.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("ProjectId")
+                        .HasColumnType("int");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -183,6 +186,8 @@ namespace ManagementApp.Data.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("ProjectId");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -263,7 +268,7 @@ namespace ManagementApp.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("ProjectUsers");
+                    b.ToTable("ProjectUser");
                 });
 
             modelBuilder.Entity("ManagementApp.Models.TaskType", b =>
@@ -427,6 +432,13 @@ namespace ManagementApp.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("ManagementApp.Models.ApplicationUser", b =>
+                {
+                    b.HasOne("ManagementApp.Models.Project", null)
+                        .WithMany("Users")
+                        .HasForeignKey("ProjectId");
+                });
+
             modelBuilder.Entity("ManagementApp.Models.Project", b =>
                 {
                     b.HasOne("ManagementApp.Models.ApplicationUser", "Owner")
@@ -458,7 +470,7 @@ namespace ManagementApp.Data.Migrations
             modelBuilder.Entity("ManagementApp.Models.ProjectUser", b =>
                 {
                     b.HasOne("ManagementApp.Models.Project", "Project")
-                        .WithMany("Users")
+                        .WithMany()
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

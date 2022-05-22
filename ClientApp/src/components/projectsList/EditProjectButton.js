@@ -16,7 +16,9 @@ import {
   MenuItem,
   FormErrorMessage,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import { Select } from "chakra-react-select";
+import React, { useContext, useState } from "react";
+import { AuthContext } from "../../context/AuthContext";
 import useProjectQuery from "./hooks/useProjectQuery";
 import { ProjectImagePicker } from "./ProjectImagePicker";
 
@@ -24,9 +26,11 @@ export const EditProjectButton = ({ project }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const onModalOpen = () => {
+    console.log(project);
     setIcon(project.icon);
     setName(project.name);
     setDescription(project.description);
+    setSelectedUsers(project.selectedUsers);
     onOpen();
   };
 
@@ -35,8 +39,11 @@ export const EditProjectButton = ({ project }) => {
   const [description, setDescription] = useState("");
   const [nameError, setNameError] = useState(false);
   const [descriptionError, setDescriptionError] = useState(false);
+  const [selectedUsers, setSelectedUsers] = useState([]);
+  const { currentUser } = useContext(AuthContext);
 
   const { editMutation } = useProjectQuery();
+  const { users } = useProjectQuery();
 
   const handleSaveClick = async () => {
     if (!name || !description) {
@@ -44,7 +51,7 @@ export const EditProjectButton = ({ project }) => {
       setDescriptionError(description === "");
     } else {
       editMutation.mutate(
-        { ...project, name, description, icon },
+        { ...project, name, description, icon, selectedUsers },
         {
           onSuccess: () => {
             onClose();
@@ -66,8 +73,12 @@ export const EditProjectButton = ({ project }) => {
           <ModalHeader>Edit project</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
+            <FormControl pb={6}>
+              <FormLabel>Icon:</FormLabel>
+              <ProjectImagePicker icon={icon} setIcon={setIcon} />
+            </FormControl>
             <FormControl pb={6} isInvalid={nameError}>
-              <FormLabel>Project Name</FormLabel>
+              <FormLabel>Project Name:</FormLabel>
               <Input
                 value={name}
                 onChange={(e) => {
@@ -81,7 +92,7 @@ export const EditProjectButton = ({ project }) => {
               </FormErrorMessage>
             </FormControl>
             <FormControl pb={6} isInvalid={descriptionError}>
-              <FormLabel>Description</FormLabel>
+              <FormLabel>Description:</FormLabel>
               <Textarea
                 value={description}
                 onChange={(e) => {
@@ -95,7 +106,26 @@ export const EditProjectButton = ({ project }) => {
               </FormErrorMessage>
             </FormControl>
             <FormControl pb={6}>
-              <ProjectImagePicker icon={icon} setIcon={setIcon} />
+              <FormLabel>Users assigned to the project: </FormLabel>
+              <Select
+                value={selectedUsers.map((user) => ({
+                  label: user.userName,
+                  value: user,
+                }))}
+                isMulti
+                name="Users"
+                onChange={(e) => {
+                  setSelectedUsers(e.map((s) => s.value));
+                }}
+                options={users
+                  ?.filter((user) => user.id !== currentUser?.sub)
+                  .map((user) => ({
+                    label: user.userName,
+                    value: user,
+                  }))}
+                placeholder="Select users..."
+                closeMenuOnSelect={false}
+              />
             </FormControl>
           </ModalBody>
 

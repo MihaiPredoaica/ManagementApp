@@ -265,7 +265,7 @@ namespace ManagementApp.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("ProjectUsers");
+                    b.ToTable("ProjectUser");
                 });
 
             modelBuilder.Entity("ManagementApp.Models.TaskType", b =>

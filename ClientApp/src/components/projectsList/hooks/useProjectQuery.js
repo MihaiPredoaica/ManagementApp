@@ -10,6 +10,16 @@ function useProjectQuery() {
       headers: !token ? {} : { Authorization: `Bearer ${token}` },
     });
     const json = await data.json();
+    console.log(json);
+    return json;
+  };
+
+  const fetchUsers = async () => {
+    const token = await authService.getAccessToken();
+    const data = await fetch("user", {
+      headers: !token ? {} : { Authorization: `Bearer ${token}` },
+    });
+    const json = await data.json();
     return json;
   };
 
@@ -23,6 +33,7 @@ function useProjectQuery() {
         description: project.description,
         icon: project.icon,
         ownerId: user.sub,
+        selectedUsers: project.selectedUsers,
       }),
       headers: !token
         ? {}
@@ -47,6 +58,7 @@ function useProjectQuery() {
         description: project.description,
         icon: project.icon,
         ownerId: user.sub,
+        selectedUsers: project.selectedUsers,
       }),
       headers: !token
         ? {}
@@ -79,9 +91,21 @@ function useProjectQuery() {
     return json;
   };
 
-  const { data } = useQuery("projectList", fetchProjects, {
-    refetchOnWindowFocus: false,
-  });
+  const { data: projects, isLoading: projectsLoading } = useQuery(
+    "projectList",
+    fetchProjects,
+    {
+      refetchOnWindowFocus: false,
+    }
+  );
+
+  const { data: users, isLoading: usersLoading } = useQuery(
+    "usersList",
+    fetchUsers,
+    {
+      refetchOnWindowFocus: false,
+    }
+  );
 
   const addMutation = useMutation(
     async (project) => await postProject(project),
@@ -102,7 +126,10 @@ function useProjectQuery() {
   );
 
   return {
-    data,
+    projects,
+    users,
+    projectsLoading,
+    usersLoading,
     addMutation,
     deleteMutation,
     editMutation,

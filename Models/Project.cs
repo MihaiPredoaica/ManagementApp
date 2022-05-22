@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,5 +16,7 @@ namespace ManagementApp.Models
 
         public virtual ApplicationUser Owner { get; set; }
         public virtual ICollection<ProjectUser> Users { get; set; }
+        [NotMapped]
+        public IEnumerable<ApplicationUser> SelectedUsers { get; set; }
     }
 }

@@ -29,7 +29,7 @@ namespace ManagementApp.Data.Repository
 
         public async Task<IList<Project>> GetProjectsAsync()
         {
-            return await _dbContext.Project.ToListAsync();
+            return await _dbContext.Project.Include(x => x.Users).ToListAsync();
         }
 
         public async Task<Project> GetProjectAsync(int id)

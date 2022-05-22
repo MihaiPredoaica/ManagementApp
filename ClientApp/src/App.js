@@ -10,23 +10,26 @@ import { ProjectsList } from "./components/projectsList/ProjectsList";
 
 import "./custom.css";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { AuthProvider } from "./context/AuthContext";
 
 export default function App() {
   const queryClient = new QueryClient();
   return (
     <QueryClientProvider client={queryClient}>
-      <Layout>
-        <Switch>
-          <AuthorizeRoute path="/home" component={ProjectsList} />
-          <AuthorizeRoute path="/overview" component={Overview} />
-          <AuthorizeRoute path="/tasks" component={TasksBoard} />
-          <Route
-            path={ApplicationPaths.ApiAuthorizationPrefix}
-            component={ApiAuthorizationRoutes}
-          />
-          <Redirect path="*" to="/home" />
-        </Switch>
-      </Layout>
+      <AuthProvider>
+        <Layout>
+          <Switch>
+            <AuthorizeRoute path="/home" component={ProjectsList} />
+            <AuthorizeRoute path="/overview" component={Overview} />
+            <AuthorizeRoute path="/tasks" component={TasksBoard} />
+            <Route
+              path={ApplicationPaths.ApiAuthorizationPrefix}
+              component={ApiAuthorizationRoutes}
+            />
+            <Redirect path="*" to="/home" />
+          </Switch>
+        </Layout>
+      </AuthProvider>
     </QueryClientProvider>
   );
 }
