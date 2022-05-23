@@ -7,6 +7,8 @@ import {
   LogoutActions,
   ApplicationPaths,
 } from "./ApiAuthorizationConstants";
+import { Center, Spinner } from "@chakra-ui/react";
+import { LoadingSpinner } from "../generalComponents/LoadingSpinner";
 
 // The main responsibility of this component is to handle the user's logout process.
 // This is the starting point for the logout process, which is usually initiated when a
@@ -59,16 +61,16 @@ export class Logout extends Component {
       return <div></div>;
     }
     if (!!message) {
-      return <div>{message}</div>;
+      return <LoadingSpinner />;
     } else {
       const action = this.props.action;
       switch (action) {
         case LogoutActions.Logout:
-          return <div>Processing logout</div>;
+          return <LoadingSpinner />;
         case LogoutActions.LogoutCallback:
-          return <div>Processing logout callback</div>;
+          return <LoadingSpinner />;
         case LogoutActions.LoggedOut:
-          return <div>{message}</div>;
+          return <LoadingSpinner />;
         default:
           throw new Error(`Invalid action '${action}'`);
       }

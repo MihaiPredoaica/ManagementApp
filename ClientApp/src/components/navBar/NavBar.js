@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   Box,
   Flex,
@@ -17,10 +17,11 @@ import { DesktopNav } from "./DesktopNav";
 import { MobileNav } from "./MobileNav";
 import { Logo } from "./Logo";
 import { NavToggle } from "./NavToggle";
+import { AuthContext } from "../../context/AuthContext";
 
 const LinkItems = [
   {
-    label: "Home",
+    label: "Dashboard",
     icon: FiHome,
     href: "/",
     // children: [
@@ -42,6 +43,7 @@ const LinkItems = [
 
 export const NavBar = () => {
   const { isOpen, onToggle } = useDisclosure();
+  const { navBarVisible } = useContext(AuthContext);
 
   return (
     <Box>
@@ -65,9 +67,11 @@ export const NavBar = () => {
         </Flex>
         <Flex flex={{ base: 1 }} justify={{ base: "center", md: "start" }}>
           <Logo />
-          <Flex display={{ base: "none", md: "flex" }} ml={10}>
-            <DesktopNav linkItems={LinkItems} />
-          </Flex>
+          {navBarVisible && (
+            <Flex display={{ base: "none", md: "flex" }} ml={10}>
+              <DesktopNav linkItems={LinkItems} />
+            </Flex>
+          )}
         </Flex>
 
         <Stack

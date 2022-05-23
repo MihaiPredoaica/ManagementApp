@@ -4,7 +4,6 @@ import {
   Heading,
   useColorModeValue,
   Stack,
-  Spacer,
   Text,
 } from "@chakra-ui/react";
 import { ProjectCard } from "./ProjectCard";
@@ -12,6 +11,7 @@ import { AddProjectButton } from "./AddProjectButton";
 import useProjectQuery from "./hooks/useProjectQuery";
 import { AuthContext } from "../../context/AuthContext";
 import authService from "../api-authorization/AuthorizeService";
+import { LoadingSpinner } from "../generalComponents/LoadingSpinner";
 
 export const ProjectsList = () => {
   const { projects, usersLoading, projectsLoading } = useProjectQuery();
@@ -25,7 +25,7 @@ export const ProjectsList = () => {
     getCurrentUser();
   }, [setCurrentUser]);
 
-  if (usersLoading || projectsLoading) return "Loading...";
+  if (usersLoading || projectsLoading) return <LoadingSpinner />;
 
   const myProjects = projects?.filter(
     (project) => project.ownerId === currentUser?.sub
