@@ -41,6 +41,17 @@ namespace ManagementApp.Controllers
             return projects;
         }
 
+        [HttpGet("{id}")]
+        public async Task<Project> GetProjectById(int id)
+        {
+            var project = await _projectRepo.GetProjectAsync(id);
+
+            var projectUsers = (await _projectUserRepo.GetProjectUsersAsync()).Where(pu => pu.ProjectId == project.Id).Select(pu => pu.UserId);
+            project.SelectedUsers = _userManager.Users?.ToList().Where(user => projectUsers.Contains(user.Id));
+
+            return project;
+        }
+
 
         [HttpPost]
         public async Task<ActionResult<Project>> Post(Project model)

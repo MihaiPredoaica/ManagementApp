@@ -8,6 +8,8 @@ import {
   useColorModeValue,
   Box,
   Flex,
+  LinkBox,
+  LinkOverlay,
 } from "@chakra-ui/react";
 
 import { ProjectSettingsMenu } from "./ProjectSettingsMenu";
@@ -29,45 +31,50 @@ export const ProjectCard = ({ project }) => {
         boxShadow={"xl"}
         padding={3}
       >
-        <Flex>
-          <Flex alignItems="center">
-            <Box
-              padding={5}
-              borderWidth="1px"
-              borderRadius="xl"
-              maxHeight="80px"
-              bg={useColorModeValue("gray.100", "#0b1437")}
-            >
-              <Image w={10} h={10} src={`Icons/icon_${project.icon}.png`} />
-            </Box>
-            <Stack
-              flex={1}
-              flexDirection="column"
-              justifyContent="center"
-              alignItems="center"
-            >
-              <Heading px={3} fontSize={"xl"} fontFamily={"body"}>
-                {project.name}
-              </Heading>
-              <Text
-                maxWidth="100%"
-                flexDirection="column"
-                justifyContent="left"
-                textAlign={"center"}
-                noOfLines={2}
-                color={useColorModeValue("gray.700", "gray.400")}
-                px={3}
+        <LinkBox as="article">
+          <Flex>
+            <Flex alignItems="center">
+              <Box
+                padding={5}
+                borderWidth="1px"
+                borderRadius="xl"
+                maxHeight="80px"
+                bg={useColorModeValue("gray.100", "#0b1437")}
               >
-                {project.description}
-              </Text>
-            </Stack>
+                <Image w={10} h={10} src={`Icons/icon_${project.icon}.png`} />
+              </Box>
+
+              <Stack
+                flex={1}
+                flexDirection="column"
+                justifyContent="center"
+                alignItems="center"
+              >
+                <Heading px={3} fontSize={"xl"} fontFamily={"body"}>
+                  <LinkOverlay href={"/dashboard/" + project.id}>
+                    {project.name}
+                  </LinkOverlay>
+                </Heading>
+                <Text
+                  maxWidth="100%"
+                  flexDirection="column"
+                  justifyContent="left"
+                  textAlign={"center"}
+                  noOfLines={2}
+                  color={useColorModeValue("gray.700", "gray.400")}
+                  px={3}
+                >
+                  {project.description}
+                </Text>
+              </Stack>
+            </Flex>
+            {project?.ownerId === currentUser?.sub && (
+              <Stack>
+                <ProjectSettingsMenu project={project} />
+              </Stack>
+            )}
           </Flex>
-          {project?.ownerId === currentUser?.sub && (
-            <Stack>
-              <ProjectSettingsMenu project={project} />
-            </Stack>
-          )}
-        </Flex>
+        </LinkBox>
       </Box>
     </Flex>
   );

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { Route, Switch, Redirect } from "react-router";
 import { Layout } from "./components/Layout";
 import { TasksBoard } from "./components/tasksBoard/TasksBoard";
@@ -11,6 +11,7 @@ import { ProjectsList } from "./components/projectsList/ProjectsList";
 import "./custom.css";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { AuthProvider } from "./context/AuthContext";
+import { Dashboard } from "./components/dashboard/Dashboard";
 
 export default function App() {
   const queryClient = new QueryClient();
@@ -20,8 +21,9 @@ export default function App() {
         <Layout>
           <Switch>
             <AuthorizeRoute path="/home" component={ProjectsList} />
-            <AuthorizeRoute path="/overview" component={Overview} />
-            <AuthorizeRoute path="/tasks" component={TasksBoard} />
+            <AuthorizeRoute path="/dashboard/:id" component={Dashboard} />
+            <AuthorizeRoute path="/overview/:id" component={Overview} />
+            <AuthorizeRoute path="/tasks/:id" component={TasksBoard} />
             <Route
               path={ApplicationPaths.ApiAuthorizationPrefix}
               component={ApiAuthorizationRoutes}

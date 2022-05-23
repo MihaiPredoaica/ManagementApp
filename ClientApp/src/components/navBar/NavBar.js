@@ -23,7 +23,7 @@ const LinkItems = [
   {
     label: "Dashboard",
     icon: FiHome,
-    href: "/",
+    href: "/dashboard",
     // children: [
     //   {
     //     label: "Explore Design Work",
