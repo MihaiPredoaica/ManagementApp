@@ -42,7 +42,7 @@ export class MobileLoginMenu extends Component {
       const loginPath = `${ApplicationPaths.Login}`;
       return this.anonymousView(registerPath, loginPath);
     } else {
-      const profilePath = `${ApplicationPaths.Profile}`;
+      const profilePath = `/accountProfile`;
       const logoutPath = {
         pathname: `${ApplicationPaths.LogOut}`,
         state: { local: true },

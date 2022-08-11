@@ -8,7 +8,12 @@ function AuthProvider({ children }) {
 
   return (
     <AuthContext.Provider
-      value={{ currentUser, setCurrentUser, navBarVisible, setNavBarVisible }}
+      value={{
+        currentUser,
+        setCurrentUser,
+        navBarVisible,
+        setNavBarVisible,
+      }}
     >
       {children}
     </AuthContext.Provider>

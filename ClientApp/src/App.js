@@ -12,25 +12,33 @@ import "./custom.css";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { AuthProvider } from "./context/AuthContext";
 import { Dashboard } from "./components/dashboard/Dashboard";
+import { ProjectProvider } from "./context/ProjectContext";
+import { UserProfilePage } from "./components/useProfile/UserProfilePage";
 
 export default function App() {
   const queryClient = new QueryClient();
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <Layout>
-          <Switch>
-            <AuthorizeRoute path="/home" component={ProjectsList} />
-            <AuthorizeRoute path="/dashboard/:id" component={Dashboard} />
-            <AuthorizeRoute path="/overview/:id" component={Overview} />
-            <AuthorizeRoute path="/tasks/:id" component={TasksBoard} />
-            <Route
-              path={ApplicationPaths.ApiAuthorizationPrefix}
-              component={ApiAuthorizationRoutes}
-            />
-            <Redirect path="*" to="/home" />
-          </Switch>
-        </Layout>
+        <ProjectProvider>
+          <Layout>
+            <Switch>
+              <AuthorizeRoute path="/home" component={ProjectsList} />
+              <AuthorizeRoute path="/dashboard/:id" component={Dashboard} />
+              <AuthorizeRoute path="/overview/:id" component={Overview} />
+              <AuthorizeRoute path="/tasks/:id" component={TasksBoard} />
+              <AuthorizeRoute
+                path="/accountProfile"
+                component={UserProfilePage}
+              />
+              <Route
+                path={ApplicationPaths.ApiAuthorizationPrefix}
+                component={ApiAuthorizationRoutes}
+              />
+              <Redirect path="*" to="/home" />
+            </Switch>
+          </Layout>
+        </ProjectProvider>
       </AuthProvider>
     </QueryClientProvider>
   );

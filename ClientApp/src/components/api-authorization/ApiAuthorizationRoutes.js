@@ -7,6 +7,7 @@ import {
   LoginActions,
   LogoutActions,
 } from "./ApiAuthorizationConstants";
+import AuthorizeRoute from "./AuthorizeRoute";
 
 export default class ApiAuthorizationRoutes extends Component {
   render() {

@@ -23,7 +23,6 @@ import { FiPlusCircle } from "react-icons/fi";
 import { ProjectImagePicker } from "./ProjectImagePicker";
 import useProjectQuery from "./hooks/useProjectQuery";
 import { Select } from "chakra-react-select";
-import authService from "../api-authorization/AuthorizeService";
 import { AuthContext } from "../../context/AuthContext";
 
 export const AddProjectButton = () => {

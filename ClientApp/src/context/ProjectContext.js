@@ -3,10 +3,10 @@ import React, { createContext, useState } from "react";
 export const ProjectContext = createContext();
 
 function ProjectProvider({ children }) {
-  const [selectedProject, setselectedProject] = useState({});
+  const [selectedProject, setSelectedProject] = useState({});
 
   return (
-    <ProjectContext.Provider value={{ selectedProject, setselectedProject }}>
+    <ProjectContext.Provider value={{ selectedProject, setSelectedProject }}>
       {children}
     </ProjectContext.Provider>
   );

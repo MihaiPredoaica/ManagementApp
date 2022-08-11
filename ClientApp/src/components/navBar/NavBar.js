@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   Box,
   Flex,
@@ -6,6 +6,8 @@ import {
   Collapse,
   useColorModeValue,
   useDisclosure,
+  Button,
+  IconButton,
 } from "@chakra-ui/react";
 import { FiHome } from "react-icons/fi";
 import { VscTypeHierarchySub } from "react-icons/vsc";
@@ -18,32 +20,33 @@ import { MobileNav } from "./MobileNav";
 import { Logo } from "./Logo";
 import { NavToggle } from "./NavToggle";
 import { AuthContext } from "../../context/AuthContext";
-
-const LinkItems = [
-  {
-    label: "Dashboard",
-    icon: FiHome,
-    href: "/dashboard",
-    // children: [
-    //   {
-    //     label: "Explore Design Work",
-    //     subLabel: "Trending Design to inspire you",
-    //     href: "#",
-    //   },
-    //   {
-    //     label: "New & Noteworthy",
-    //     subLabel: "Up-and-coming Designers",
-    //     href: "#",
-    //   },
-    // ],
-  },
-  { label: "Overview", icon: VscTypeHierarchySub, href: "/overview" },
-  { label: "Tasks", icon: GoTasklist, href: "/tasks" },
-];
+import { ProjectContext } from "../../context/ProjectContext";
+import { SettingsIcon } from "@chakra-ui/icons";
 
 export const NavBar = () => {
   const { isOpen, onToggle } = useDisclosure();
-  const { navBarVisible } = useContext(AuthContext);
+  const { navBarVisible, isProjectOwner } = useContext(AuthContext);
+  const { selectedProject } = useContext(ProjectContext);
+
+  useEffect(() => {}, [selectedProject]);
+
+  const LinkItems = [
+    {
+      label: "Dashboard",
+      icon: FiHome,
+      href: `/dashboard/${selectedProject ? selectedProject.id : ""}`,
+    },
+    {
+      label: "Overview",
+      icon: VscTypeHierarchySub,
+      href: `/overview/${selectedProject ? selectedProject.id : ""}`,
+    },
+    {
+      label: "Tasks",
+      icon: GoTasklist,
+      href: `/tasks/${selectedProject ? selectedProject.id : ""}`,
+    },
+  ];
 
   return (
     <Box>
@@ -82,6 +85,16 @@ export const NavBar = () => {
         >
           <ColorModeSwitcher />
           <LoginMenu />
+          {navBarVisible && isProjectOwner && (
+            <Button
+              as={IconButton}
+              aria-label="Options"
+              icon={<SettingsIcon />}
+              colorScheme="blue"
+              w={"30px"}
+              h={"40px"}
+            />
+          )}
         </Stack>
       </Flex>
 

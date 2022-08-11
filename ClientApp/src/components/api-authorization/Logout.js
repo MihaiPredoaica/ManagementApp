@@ -7,7 +7,6 @@ import {
   LogoutActions,
   ApplicationPaths,
 } from "./ApiAuthorizationConstants";
-import { Center, Spinner } from "@chakra-ui/react";
 import { LoadingSpinner } from "../generalComponents/LoadingSpinner";
 
 // The main responsibility of this component is to handle the user's logout process.

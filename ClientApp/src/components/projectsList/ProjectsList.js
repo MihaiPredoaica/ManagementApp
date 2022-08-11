@@ -40,56 +40,42 @@ export const ProjectsList = () => {
   console.log(myProjects, assignedProjects, currentUser);
 
   return (
-    <ProjectProvider>
-      <Stack>
-        <AddProjectButton />
-        {myProjects?.length === 0 && assignedProjects?.length === 0 && (
-          <Stack borderRadius="xl" bg={stackColor} flex={1} mt={15}>
-            <Heading margin={"10px"} marginLeft={"30px"}>
-              No Projects!
-            </Heading>
-            <Text size="sm" padding={"10px"} paddingLeft={"30px"}>
-              You can start by adding a project of your own!
-            </Text>
-          </Stack>
-        )}
-        {myProjects?.length > 0 && (
-          <Stack
-            borderRadius="xl"
-            bg={stackColor}
-            flex={1}
-            mt={15}
-            wrap="nowrap"
-          >
-            <Heading margin={"10px"} marginLeft={"30px"}>
-              My Projects
-            </Heading>
-            <SimpleGrid columns={3} spacingX="20px" spacingY="10px">
-              {myProjects?.map((project) => (
-                <ProjectCard key={project.id} project={project} />
-              ))}
-            </SimpleGrid>
-          </Stack>
-        )}
-        {assignedProjects?.length > 0 && (
-          <Stack
-            borderRadius="xl"
-            bg={stackColor}
-            flex={1}
-            mt={15}
-            wrap="nowrap"
-          >
-            <Heading margin={"10px"} marginLeft={"30px"}>
-              Assigned Projects
-            </Heading>
-            <SimpleGrid columns={3} spacingX="20px" spacingY="10px">
-              {assignedProjects?.map((project) => (
-                <ProjectCard key={project.id} project={project} />
-              ))}
-            </SimpleGrid>
-          </Stack>
-        )}
-      </Stack>
-    </ProjectProvider>
+    <Stack>
+      <AddProjectButton />
+      {myProjects?.length === 0 && assignedProjects?.length === 0 && (
+        <Stack borderRadius="xl" bg={stackColor} flex={1} mt={15}>
+          <Heading margin={"10px"} marginLeft={"30px"}>
+            No Projects!
+          </Heading>
+          <Text size="sm" padding={"10px"} paddingLeft={"30px"}>
+            You can start by adding a project of your own!
+          </Text>
+        </Stack>
+      )}
+      {myProjects?.length > 0 && (
+        <Stack borderRadius="xl" bg={stackColor} flex={1} mt={15} wrap="nowrap">
+          <Heading margin={"10px"} marginLeft={"30px"}>
+            My Projects
+          </Heading>
+          <SimpleGrid columns={3} spacingX="20px" spacingY="10px">
+            {myProjects?.map((project) => (
+              <ProjectCard key={project.id} project={project} />
+            ))}
+          </SimpleGrid>
+        </Stack>
+      )}
+      {assignedProjects?.length > 0 && (
+        <Stack borderRadius="xl" bg={stackColor} flex={1} mt={15} wrap="nowrap">
+          <Heading margin={"10px"} marginLeft={"30px"}>
+            Assigned Projects
+          </Heading>
+          <SimpleGrid columns={3} spacingX="20px" spacingY="10px">
+            {assignedProjects?.map((project) => (
+              <ProjectCard key={project.id} project={project} />
+            ))}
+          </SimpleGrid>
+        </Stack>
+      )}
+    </Stack>
   );
 };
