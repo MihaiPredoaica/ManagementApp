@@ -16,16 +16,27 @@ namespace ManagementApp.Controllers
     public class TaskTypeController : ControllerBase
     {
         private readonly ITaskTypeRepository _taskTypeRepo;
+        private readonly IProjectRepository _projectRepo;
+        private readonly IProjectTaskRepository _projectTaskRepo;
 
-        public TaskTypeController(ITaskTypeRepository taskTypeRepo)
+        public TaskTypeController(ITaskTypeRepository taskTypeRepo, IProjectRepository projectRepo, IProjectTaskRepository projectTaskRepo)
         {
             _taskTypeRepo = taskTypeRepo;
+            _projectRepo = projectRepo;
+            _projectTaskRepo = projectTaskRepo;
         }
 
-        [HttpGet]
-        public async Task<IEnumerable<TaskType>> Get()
+        [HttpGet("{id}")]
+        public async Task<IEnumerable<TaskType>> GetByProjectId(int id)
         {
-            return await _taskTypeRepo.GetTaskTypesAsync();
+            try
+            {
+                return await _taskTypeRepo.GetTaskTypesAsync(id);
+            }
+            catch(Exception ex)
+            {
+                return (IEnumerable<TaskType>)StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
         }
 
 
@@ -34,6 +45,7 @@ namespace ManagementApp.Controllers
         {
             try
             {
+                model.Project = await _projectRepo.GetProjectAsync(model.ProjectId);
                 await _taskTypeRepo.AddAsync(model);
                 return Ok();
             }
@@ -62,6 +74,11 @@ namespace ManagementApp.Controllers
         {
             try
             {
+                foreach (var projectTask in (await _projectTaskRepo.GetProjectTasksAsync(model.ProjectId)).Where(x => x.TypeId == model.Id))
+                {
+                    await _projectTaskRepo.DeleteAsync(projectTask);
+                }
+
                 var project = await _taskTypeRepo.GetTaskTypeAsync(model.Id);
                 await _taskTypeRepo.DeleteAsync(project);
                 return Ok();

@@ -14,6 +14,7 @@ import { AuthProvider } from "./context/AuthContext";
 import { Dashboard } from "./components/dashboard/Dashboard";
 import { ProjectProvider } from "./context/ProjectContext";
 import { UserProfilePage } from "./components/useProfile/UserProfilePage";
+import { ProjectSettingsPage } from "./components/dashboard/ProjectSettings/ProjectSettingsPage";
 
 export default function App() {
   const queryClient = new QueryClient();
@@ -27,6 +28,10 @@ export default function App() {
               <AuthorizeRoute path="/dashboard/:id" component={Dashboard} />
               <AuthorizeRoute path="/overview/:id" component={Overview} />
               <AuthorizeRoute path="/tasks/:id" component={TasksBoard} />
+              <AuthorizeRoute
+                path="/settings/:id"
+                component={ProjectSettingsPage}
+              />
               <AuthorizeRoute
                 path="/accountProfile"
                 component={UserProfilePage}

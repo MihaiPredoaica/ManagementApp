@@ -3,18 +3,9 @@ import { NavLink } from "reactstrap";
 import { Link } from "react-router-dom";
 import authService from "./AuthorizeService";
 import { ApplicationPaths } from "./ApiAuthorizationConstants";
-import { FiLogOut, FiLogIn, FiPlusCircle, FiUser } from "react-icons/fi";
-import {
-  Avatar,
-  Button,
-  Center,
-  Icon,
-  Menu,
-  MenuButton,
-  MenuDivider,
-  MenuItem,
-  MenuList,
-} from "@chakra-ui/react";
+import { FiLogIn, FiPlusCircle } from "react-icons/fi";
+import { Button, Icon } from "@chakra-ui/react";
+import UserProfile from "../navBar/UserProfile";
 
 export class LoginMenu extends Component {
   constructor(props) {
@@ -43,11 +34,12 @@ export class LoginMenu extends Component {
     this.setState({
       isAuthenticated,
       userName: user && user.name,
+      user,
     });
   }
 
   render() {
-    const { isAuthenticated, userName } = this.state;
+    const { isAuthenticated, userName, user } = this.state;
     if (!isAuthenticated) {
       const registerPath = `${ApplicationPaths.Register}`;
       const loginPath = `${ApplicationPaths.Login}`;
@@ -58,63 +50,20 @@ export class LoginMenu extends Component {
         pathname: `${ApplicationPaths.LogOut}`,
         state: { local: true },
       };
-      return this.authenticatedView(userName, profilePath, logoutPath);
+      return this.authenticatedView(userName, profilePath, logoutPath, user);
     }
   }
 
-  authenticatedView(userName, profilePath, logoutPath) {
+  authenticatedView(userName, profilePath, logoutPath, user) {
     return (
-      <Fragment>
-        <Menu>
-          <MenuButton
-            as={Button}
-            rounded={"full"}
-            variant={"link"}
-            cursor={"pointer"}
-            minW={0}
-          >
-            <Avatar size={"sm"} src="user.png" marginX={2} />
-          </MenuButton>
-          <MenuList alignItems={"center"}>
-            <br />
-            <Center>
-              <Avatar size={"2xl"} src="user.png" />
-            </Center>
-            <br />
-            <Center>
-              <p>{userName}</p>
-            </Center>
-            <br />
-            <MenuDivider />
-            <MenuItem>
-              <NavLink tag={Link} to={profilePath}>
-                <Icon
-                  mr="4"
-                  fontSize="16"
-                  _groupHover={{
-                    color: "white",
-                  }}
-                  as={FiUser}
-                />
-                Account Profile
-              </NavLink>
-            </MenuItem>
-            <MenuItem>
-              <NavLink tag={Link} to={logoutPath}>
-                <Icon
-                  mr="4"
-                  fontSize="16"
-                  _groupHover={{
-                    color: "white",
-                  }}
-                  as={FiLogOut}
-                />
-                Logout
-              </NavLink>
-            </MenuItem>
-          </MenuList>
-        </Menu>
-      </Fragment>
+      <>
+        <UserProfile
+          userName={userName}
+          profilePath={profilePath}
+          logoutPath={logoutPath}
+          loggedUser={user}
+        />
+      </>
     );
   }
 

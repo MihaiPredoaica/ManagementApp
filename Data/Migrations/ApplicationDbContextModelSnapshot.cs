@@ -141,6 +141,9 @@ namespace ManagementApp.Data.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -164,9 +167,6 @@ namespace ManagementApp.Data.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("ProjectId")
-                        .HasColumnType("int");
-
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -186,8 +186,6 @@ namespace ManagementApp.Data.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.HasIndex("ProjectId");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -228,6 +226,15 @@ namespace ManagementApp.Data.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Estimation")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Layer")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Logged")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -235,6 +242,9 @@ namespace ManagementApp.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("ProjectId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Stage")
                         .HasColumnType("int");
 
                     b.Property<int>("TypeId")
@@ -246,7 +256,7 @@ namespace ManagementApp.Data.Migrations
 
                     b.HasIndex("TypeId");
 
-                    b.ToTable("ProjectTasks");
+                    b.ToTable("ProjectTask");
                 });
 
             modelBuilder.Entity("ManagementApp.Models.ProjectUser", b =>
@@ -278,23 +288,23 @@ namespace ManagementApp.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Layer")
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Icon")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ProjectId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("ProjectId1")
+                    b.Property<int>("ProjectId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProjectId1");
+                    b.HasIndex("ProjectId");
 
-                    b.ToTable("TaskTypes");
+                    b.ToTable("TaskType");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -432,13 +442,6 @@ namespace ManagementApp.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("ManagementApp.Models.ApplicationUser", b =>
-                {
-                    b.HasOne("ManagementApp.Models.Project", null)
-                        .WithMany("Users")
-                        .HasForeignKey("ProjectId");
-                });
-
             modelBuilder.Entity("ManagementApp.Models.Project", b =>
                 {
                     b.HasOne("ManagementApp.Models.ApplicationUser", "Owner")
@@ -469,17 +472,15 @@ namespace ManagementApp.Data.Migrations
 
             modelBuilder.Entity("ManagementApp.Models.ProjectUser", b =>
                 {
-                    b.HasOne("ManagementApp.Models.Project", "Project")
-                        .WithMany()
+                    b.HasOne("ManagementApp.Models.Project", null)
+                        .WithMany("Users")
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("ManagementApp.Models.ApplicationUser", "User")
-                        .WithMany("Projects")
+                        .WithMany()
                         .HasForeignKey("UserId");
-
-                    b.Navigation("Project");
 
                     b.Navigation("User");
                 });
@@ -488,7 +489,9 @@ namespace ManagementApp.Data.Migrations
                 {
                     b.HasOne("ManagementApp.Models.Project", "Project")
                         .WithMany()
-                        .HasForeignKey("ProjectId1");
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Project");
                 });
@@ -542,11 +545,6 @@ namespace ManagementApp.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("ManagementApp.Models.ApplicationUser", b =>
-                {
-                    b.Navigation("Projects");
                 });
 
             modelBuilder.Entity("ManagementApp.Models.Project", b =>

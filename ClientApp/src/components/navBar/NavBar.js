@@ -6,8 +6,6 @@ import {
   Collapse,
   useColorModeValue,
   useDisclosure,
-  Button,
-  IconButton,
 } from "@chakra-ui/react";
 import { FiHome } from "react-icons/fi";
 import { VscTypeHierarchySub } from "react-icons/vsc";
@@ -21,11 +19,10 @@ import { Logo } from "./Logo";
 import { NavToggle } from "./NavToggle";
 import { AuthContext } from "../../context/AuthContext";
 import { ProjectContext } from "../../context/ProjectContext";
-import { SettingsIcon } from "@chakra-ui/icons";
 
 export const NavBar = () => {
   const { isOpen, onToggle } = useDisclosure();
-  const { navBarVisible, isProjectOwner } = useContext(AuthContext);
+  const { navBarVisible } = useContext(AuthContext);
   const { selectedProject } = useContext(ProjectContext);
 
   useEffect(() => {}, [selectedProject]);
@@ -85,16 +82,6 @@ export const NavBar = () => {
         >
           <ColorModeSwitcher />
           <LoginMenu />
-          {navBarVisible && isProjectOwner && (
-            <Button
-              as={IconButton}
-              aria-label="Options"
-              icon={<SettingsIcon />}
-              colorScheme="blue"
-              w={"30px"}
-              h={"40px"}
-            />
-          )}
         </Stack>
       </Flex>
 

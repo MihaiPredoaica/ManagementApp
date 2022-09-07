@@ -12,8 +12,10 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import React, { useRef, useState } from "react";
+import { useHistory } from "react-router-dom";
 
 export const UserProfileForm = (props) => {
+  const history = useHistory();
   const { user, editMutation } = props;
   const inputFile = useRef(null);
 
@@ -21,16 +23,28 @@ export const UserProfileForm = (props) => {
     inputFile.current.click();
   };
 
-  const handleChange = (event) => {
+  const convertToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  };
+
+  const handleChange = async (event) => {
     const fileUploaded = event.target.files && event.target.files[0];
 
     if (!fileUploaded) {
       return;
     }
 
-    setImage(URL.createObjectURL(fileUploaded));
-
-    console.log(URL.createObjectURL(fileUploaded));
+    const base64 = await convertToBase64(fileUploaded);
+    setImage(base64);
   };
 
   const validateEmail = (email) => {
@@ -42,17 +56,16 @@ export const UserProfileForm = (props) => {
   };
 
   const [name, setName] = useState(user ? user.userName : "");
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState(user?.image ? user.image : "");
   const [email, setEmail] = useState(user ? user.email : "");
   const [nameError, setNameError] = useState(false);
   const [emailError, setEmailError] = useState(false);
 
-  const stackColor = useColorModeValue("#e8e9ec", "#0b1437");
+  const stackColor = useColorModeValue("#d2d4d9", "#0b1437");
   const labelColor = useColorModeValue("gray.700", "whiteAlpha.900");
   const borderColor = useColorModeValue("gray.700", "gray.400");
 
   const handleSaveClick = async () => {
-    console.log(name, email);
     if (!name || !email) {
       setNameError(name === "");
       setEmailError(email === "");
@@ -61,7 +74,7 @@ export const UserProfileForm = (props) => {
         { name, id: user.id, email, image },
         {
           onSuccess: () => {
-            // onClose();
+            history.goBack();
           },
         }
       );
@@ -151,7 +164,6 @@ export const UserProfileForm = (props) => {
               onChange={(e) => {
                 setEmail(e.target.value);
                 const emailIsvalid = validateEmail(e.target.value);
-                console.log(emailIsvalid, emailError);
                 emailIsvalid == null
                   ? setEmailError(true)
                   : setEmailError(false);

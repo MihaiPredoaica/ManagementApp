@@ -26,7 +26,6 @@ export const EditProjectButton = ({ project }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const onModalOpen = () => {
-    console.log(project);
     setIcon(project.icon);
     setName(project.name);
     setDescription(project.description);

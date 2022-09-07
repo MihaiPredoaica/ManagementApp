@@ -39,11 +39,10 @@ export const ProjectCard = ({ project }) => {
                 borderWidth="1px"
                 borderRadius="xl"
                 maxHeight="80px"
-                bg={useColorModeValue("gray.100", "#0b1437")}
+                bg={useColorModeValue("gray.100", "#2059f4")}
               >
                 <Image w={10} h={10} src={`Icons/icon_${project.icon}.png`} />
               </Box>
-
               <Stack
                 flex={1}
                 flexDirection="column"

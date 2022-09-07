@@ -23,26 +23,25 @@ function useUserProfileQuery(id) {
   );
 
   const updateUser = async (user) => {
-    console.log(user);
-    // const token = await authService.getAccessToken();
-    // const data = await fetch("user", {
-    //   method: "PUT",
-    //   body: JSON.stringify({
-    //     id: user.id,
-    //     name: user.name,
-    //     email: user.email,
-    //     image: user.image,
-    //   }),
-    //   headers: !token
-    //     ? {}
-    //     : {
-    //         Authorization: `Bearer ${token}`,
-    //         Accept: "application/json, text/plain",
-    //         "Content-Type": "application/json;charset=UTF-8",
-    //       },
-    // });
-    // const json = JSON.stringify(data);
-    // return json;
+    const token = await authService.getAccessToken();
+    const data = await fetch("user", {
+      method: "PUT",
+      body: JSON.stringify({
+        id: user.id,
+        userName: user.name,
+        email: user.email,
+        image: user.image,
+      }),
+      headers: !token
+        ? {}
+        : {
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json, text/plain",
+            "Content-Type": "application/json;charset=UTF-8",
+          },
+    });
+    const json = JSON.stringify(data);
+    return json;
   };
 
   const editMutation = useMutation(async (user) => await updateUser(user), {

@@ -18,13 +18,17 @@ namespace ManagementApp.Controllers
     {
         private readonly IProjectRepository _projectRepo;
         private readonly IProjectUserRepository _projectUserRepo;
+        private readonly ITaskTypeRepository _taskTypeRepo;
+        private readonly IProjectTaskRepository _projectTaskRepo;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public ProjectController(IProjectRepository projectRepo, IProjectUserRepository projectUserRepo, UserManager<ApplicationUser> userManager)
+        public ProjectController(IProjectRepository projectRepo, IProjectUserRepository projectUserRepo, IProjectTaskRepository projectTaskRepo, ITaskTypeRepository taskTypeRepo, UserManager<ApplicationUser> userManager)
         {
             _projectRepo = projectRepo;
             _projectUserRepo = projectUserRepo;
             _userManager = userManager;
+            _taskTypeRepo = taskTypeRepo;
+            _projectTaskRepo = projectTaskRepo;
         }
 
         [HttpGet]
@@ -63,6 +67,12 @@ namespace ManagementApp.Controllers
                 {
                     await _projectUserRepo.AddAsync(new ProjectUser { ProjectId = model.Id, UserId = user.Id });
                 }
+                var taskType = new TaskType { Name = "Root Task Type", Description = "This is the task type for the root task", Icon = 16, ProjectId = model.Id };
+                await _taskTypeRepo.AddAsync(taskType);
+
+                var projectTask = new ProjectTask { Name = "Root Task", Description = "This is the root task for the project", TypeId = taskType.Id, ProjectId = model.Id, Layer = 0, ParentTaskId = -1, Icon=16 };
+                await _projectTaskRepo.AddAsync(projectTask);
+
                 return Ok();
             }
             catch (Exception ex)
@@ -111,6 +121,16 @@ namespace ManagementApp.Controllers
                 foreach (var pu in projectUsers)
                 {
                     await _projectUserRepo.DeleteAsync(pu);
+                }
+
+                foreach(var projectTask in (await _projectTaskRepo.GetProjectTasksAsync(model.Id)))
+                {
+                    await _projectTaskRepo.DeleteAsync(projectTask);
+                }
+
+                foreach (var taskType in (await _taskTypeRepo.GetTaskTypesAsync(model.Id)))
+                {
+                    await _taskTypeRepo.DeleteAsync(taskType);
                 }
 
                 var project = await _projectRepo.GetProjectAsync(model.Id);

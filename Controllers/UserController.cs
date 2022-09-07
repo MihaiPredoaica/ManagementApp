@@ -42,6 +42,11 @@ namespace ManagementApp.Controllers
             try
             {
                 //await _taskTypeRepo.UpdateAsync(model);
+                var user = await _userManager.Users.FirstOrDefaultAsync(user => user.Id == model.Id);
+                user.UserName = model.UserName;
+                user.Email = model.Email;
+                user.Image = model.Image;
+                var result = await _userManager.UpdateAsync(user);
                 return Ok();
             }
             catch (Exception ex)

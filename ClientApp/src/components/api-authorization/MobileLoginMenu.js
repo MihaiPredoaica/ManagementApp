@@ -53,35 +53,6 @@ export class MobileLoginMenu extends Component {
 
   authenticatedView(userName, profilePath, logoutPath) {
     return (
-      // <Fragment>
-      //   <NavItem>
-      //     <NavLink tag={Link} className="text-dark" to={profilePath}>
-      //       Hello {userName}
-      //     </NavLink>
-      //   </NavItem>
-      //   <Button
-      //       display={{ base: "none", md: "inline-flex" }}
-      //       fontSize={"sm"}
-      //       fontWeight={600}
-      //       color={"white"}
-      //       bg={"pink.400"}
-      //       href={logoutPath}
-      //       _hover={{
-      //         bg: "pink.300",
-      //       }}
-      //     >
-      //       <Icon
-      //         mr="4"
-      //         fontSize="16"
-      //         _groupHover={{
-      //           color: "white",
-      //         }}
-      //         as={FiLogOut}
-      //       />
-      //       Logout
-
-      //     </Button>
-      // </Fragment>
       <>
         <Stack spacing={4}>
           <Link

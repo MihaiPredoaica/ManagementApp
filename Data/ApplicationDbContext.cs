@@ -10,8 +10,8 @@ namespace ManagementApp.Data
     {
         public DbSet<Project> Project { get; set; }
         public DbSet<ProjectUser> ProjectUser { get; set; }
-        public DbSet<ProjectTask> ProjectTasks { get; set; }
-        public DbSet<TaskType> TaskTypes { get; set; }
+        public DbSet<ProjectTask> ProjectTask { get; set; }
+        public DbSet<TaskType> TaskType { get; set; }
 
         public ApplicationDbContext(
             DbContextOptions options,

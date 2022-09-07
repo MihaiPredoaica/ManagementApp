@@ -8,5 +8,6 @@ namespace ManagementApp.Models
 {
     public class ApplicationUser : IdentityUser
     {
+        public string Image { get; set; }
     }
 }

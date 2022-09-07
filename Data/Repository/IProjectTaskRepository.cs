@@ -6,7 +6,7 @@ namespace ManagementApp.Data.Repository
 {
     public interface IProjectTaskRepository
     {
-        Task<IList<ProjectTask>> GetProjectTasksAsync();
+        Task<IList<ProjectTask>> GetProjectTasksAsync(int projectId);
         Task<ProjectTask> GetProjectTaskAsync(int projectTaskId);
         Task AddAsync(ProjectTask projectTask);
         Task<ProjectTask> UpdateAsync(ProjectTask projectTask);

@@ -12,7 +12,6 @@ import useProjectQuery from "./hooks/useProjectQuery";
 import { AuthContext } from "../../context/AuthContext";
 import authService from "../api-authorization/AuthorizeService";
 import { LoadingSpinner } from "../generalComponents/LoadingSpinner";
-import { ProjectProvider } from "../../context/ProjectContext";
 
 export const ProjectsList = () => {
   const { projects, usersLoading, projectsLoading } = useProjectQuery();
@@ -36,8 +35,6 @@ export const ProjectsList = () => {
       project.selectedUsers?.filter((user) => user.id === currentUser?.sub)
         .length > 0
   );
-
-  console.log(myProjects, assignedProjects, currentUser);
 
   return (
     <Stack>
